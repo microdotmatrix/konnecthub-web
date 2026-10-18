@@ -1,0 +1,184 @@
+---
+type Line = { kind: 'cmd' | 'out'; text: string; tone?: 'ok' | 'dim' };
+
+const lines: readonly Line[] = [
+  { kind: 'cmd', text: 'konnecthub new order-received' },
+  { kind: 'out', text: '✓ flow created, draft linked', tone: 'ok' },
+  { kind: 'cmd', text: 'konnecthub test' },
+  { kind: 'out', text: '✓ fixtures/a-1001.json  3 steps  SUCCEEDED', tone: 'ok' },
+  { kind: 'cmd', text: 'konnecthub deploy' },
+  { kind: 'out', text: 'pushed → published v4 → bundle READY → active', tone: 'dim' },
+  { kind: 'cmd', text: 'konnecthub logs exec_8f6d --follow' },
+  { kind: 'out', text: 'INFO  readOrder  order A-1001 for 42.5', tone: 'dim' },
+  { kind: 'cmd', text: 'konnecthub skills' },
+  { kind: 'out', text: '✓ agent instructions refreshed in .claude/skills/', tone: 'ok' },
+];
+
+// Commands "type", outputs appear. Each line starts after the previous one.
+let clock = 0.2;
+const timed = lines.map((line) => {
+  const duration = line.kind === 'cmd' ? Math.max(0.5, line.text.length * 0.035) : 0.25;
+  const start = clock;
+  clock += duration + (line.kind === 'cmd' ? 0.25 : 0.55);
+  return { ...line, style: `--d: ${start.toFixed(2)}s; --t: ${duration.toFixed(2)}s; --n: ${line.text.length + 1}` };
+});
+
+const facts = [
+  {
+    term: 'One draft, two editors',
+    detail: 'The CLI and the browser edit the same draft. Someone can type in the editor while you push. The CLI merges.',
+  },
+  {
+    term: 'Deploys from CI',
+    detail: 'Set KONNECTHUB_TOKEN and konnecthub deploy pushes, publishes, waits for READY and switches on.',
+  },
+  {
+    term: 'Tokens narrow, never widen',
+    detail: 'A token can do what you can, minus what you did not grant. Narrow someone’s role and every token they hold narrows with it.',
+  },
+  {
+    term: 'Sandboxed by default',
+    detail: 'Every run gets an isolated Deno worker, with the timeout, memory and CPU its deployment sets.',
+  },
+] as const;
+---
+
+<section id="cli" class="bg-ink py-(--space-section) text-paper" aria-labelledby="cli-title">
+  <div class="wrap">
+    <p class="label section-index text-honey">08 / CLI & access</p>
+    <h2 id="cli-title" class="headline mt-6 max-w-[14ch]">Ship from your terminal. Or from CI.</h2>
+
+    <div class="mt-14 grid gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-10">
+      <figure class="term lg:col-span-7" data-live aria-label="Example terminal session using the konnecthub CLI">
+        <div class="term-bar" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <p class="label ml-3 text-haze">~/acme-flows</p>
+        </div>
+        <div class="term-body code">
+          {
+            timed.map((line) => (
+              <p class:list={['term-line', line.kind, line.tone]} style={line.style}>{line.kind === 'cmd' && <span class="prompt" aria-hidden="true">$ </span>}<span class="term-text">{line.text}</span></p>
+            ))
+          }
+          <span class="caret" aria-hidden="true" style={`--d: ${clock.toFixed(2)}s`}></span>
+        </div>
+      </figure>
+
+      <dl class="grid content-start gap-8 lg:col-span-4 lg:col-start-9">
+        {
+          facts.map((fact) => (
+            <div class="border-t border-ink-3 pt-5">
+              <dt class="text-lg font-bold">{fact.term}</dt>
+              <dd class="mt-1.5 text-haze">{fact.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .term {
+    align-self: start;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-ink-2);
+    border: 1px solid var(--color-ink-3);
+    box-shadow: 12px 12px 0 0 var(--color-honey);
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--color-ink-3);
+  }
+
+  .term-bar > span {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--color-ink-3);
+  }
+
+  .term-body {
+    min-height: 23rem;
+    padding: 1.4rem 1.4rem 1.8rem;
+    overflow-x: auto;
+    font-size: 0.8125rem;
+    line-height: 2;
+  }
+
+  .term-line {
+    display: block;
+    white-space: pre;
+  }
+
+  .term-line.out {
+    padding-left: 1.2em;
+  }
+
+  .term-line.cmd + .term-line.out {
+    margin-bottom: 0.6em;
+  }
+
+  .prompt {
+    color: var(--color-honey);
+  }
+
+  .term-line.ok {
+    color: var(--color-ok);
+  }
+
+  .term-line.dim {
+    color: var(--color-haze);
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    vertical-align: -0.2em;
+    background: var(--color-honey);
+    animation: blink 1s steps(2, jump-none) var(--d) infinite;
+  }
+
+  /* Typing only runs when JS is present to start it, so no-JS readers see the full session. */
+  :global(.js) .term-line.cmd .term-text {
+    display: inline-block;
+    vertical-align: top;
+    animation: type var(--t) steps(var(--n), jump-none) var(--d) both;
+  }
+
+  :global(.js) .term-line.out {
+    animation: appear 0.3s var(--ease-out-quart) var(--d) both;
+  }
+
+  :global(.js) .term-line.cmd .prompt {
+    animation: appear 0.01s linear var(--d) both;
+  }
+
+  @keyframes type {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  @keyframes blink {
+    to {
+      opacity: 0;
+    }
+  }
+</style>

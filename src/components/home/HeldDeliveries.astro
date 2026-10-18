@@ -1,0 +1,27 @@
+---
+import HeldDemo from './HeldDemo.svelte';
+---
+
+<section id="held" class="drench on-honey py-(--space-section)" aria-labelledby="held-title">
+  <div class="wrap grid gap-14 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-5">
+      <p class="label section-index text-ink-soft">04 / Held deliveries</p>
+      <h2 id="held-title" class="headline mt-6">Switch it off. Nothing is lost.</h2>
+      <p class="lead mt-8">
+        A switched-off deployment holds its deliveries instead of dropping them. Held runs cost nothing,
+        never time out and never start by accident.
+      </p>
+      <p class="mt-5 max-w-[46ch] text-ink-soft">
+        Turning it back on does not replay a week of work. Releasing the backlog is a decision you make, and
+        each delivery runs as it arrived: same payload, oldest first.
+      </p>
+      <p class="label mt-10 inline-block rounded-sm bg-ink px-3 py-2 text-honey">
+        Try it: switch off, wait, switch on, release
+      </p>
+    </div>
+
+    <div class="lg:col-span-7 lg:pt-4">
+      <HeldDemo client:visible />
+    </div>
+  </div>
+</section>

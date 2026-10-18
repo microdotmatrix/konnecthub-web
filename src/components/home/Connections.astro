@@ -1,0 +1,203 @@
+---
+const facts = [
+  {
+    title: 'Credentials, managed',
+    body: 'OAuth tokens are refreshed just before a flow needs them. Nothing you write deals with expiry.',
+  },
+  {
+    title: 'Topics, already defined',
+    body: 'Shopify’s topics arrive as event sources. Subscribe a deployment like any other.',
+  },
+  {
+    title: 'Webhooks, registered for you',
+    body: 'Connect and the provider’s webhooks are set up. Disconnect and they are removed. No callback URLs to paste.',
+  },
+  {
+    title: 'Uninstalls, handled',
+    body: 'If a merchant uninstalls, that arrives as an event too, so the connection is torn down cleanly.',
+  },
+] as const;
+
+const topics = ['shopify.orders.create', 'shopify.products.update', 'shopify.orders.paid'] as const;
+---
+
+<section id="connections" class="py-(--space-section)" aria-labelledby="connections-title">
+  <div class="wrap">
+    <p class="label section-index text-mute">03 / Services & connections</p>
+    <h2 id="connections-title" class="headline mt-6 max-w-[21ch]">
+      Connect a store once. Your flows never hold the keys.
+    </h2>
+
+    <div class="mt-16 grid gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-10">
+      <figure class="plate lg:col-span-6" aria-label="Example Shopify connection" data-live>
+        <span class="screw tl" aria-hidden="true"></span>
+        <span class="screw tr" aria-hidden="true"></span>
+        <span class="screw bl" aria-hidden="true"></span>
+        <span class="screw br" aria-hidden="true"></span>
+
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="label text-mute">Connection · Shopify · OAuth2</p>
+            <p class="subhead mt-2">acme-store</p>
+          </div>
+          <span class="status" data-status="SUCCEEDED">CONNECTED</span>
+        </div>
+
+        <dl class="plate-fields mt-8">
+          <div>
+            <dt class="label text-mute">Shop domain</dt>
+            <dd class="code">acme-store.myshopify.com</dd>
+          </div>
+          <div>
+            <dt class="label text-mute">Access token</dt>
+            <dd class="flex flex-wrap items-center gap-3">
+              <span class="redacted" aria-label="Hidden">••••••••••••••••</span>
+              <span class="code text-mute">encrypted, never in an API response</span>
+            </dd>
+          </div>
+          <div>
+            <dt class="label text-mute">Event topics</dt>
+            <dd>
+              <ul class="flex flex-wrap gap-2">
+                {
+                  topics.map((topic, i) => (
+                    <li class="topic code" style={`--delay: ${i * 1.1}s`}>
+                      <span class="topic-dot" aria-hidden="true" />
+                      {topic}
+                    </li>
+                  ))
+                }
+              </ul>
+            </dd>
+          </div>
+        </dl>
+
+        <figcaption class="mt-8 border-t-2 border-dashed border-rule pt-4">
+          <pre class="code overflow-x-auto text-mute"><span class="text-ink">const</span> {'{'} config, credentials {'}'} =
+  <span class="text-ink">await</span> this.connection(this.input.store);
+<span>// resolved by the platform, the moment the flow asks</span></pre>
+        </figcaption>
+      </figure>
+
+      <div class="lg:col-span-5 lg:col-start-8">
+        <ol class="facts">
+          {
+            facts.map((fact, i) => (
+              <li class="fact">
+                <span class="fact-num display tabular" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="text-xl font-extrabold [font-stretch:85%]">{fact.title}</h3>
+                  <p class="mt-1.5 text-mute">{fact.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="mt-10 max-w-[44ch] border-t-2 border-ink pt-6 font-medium">
+          BigCommerce connects by token. Anything else with an API becomes a custom service, defined once and
+          used by every flow in the workspace.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate {
+    position: relative;
+    min-width: 0;
+    align-self: start;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 2px solid var(--color-ink);
+    border-radius: 14px;
+    background: var(--color-paper-2);
+    box-shadow: 10px 10px 0 0 var(--color-ink);
+  }
+
+  .screw {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-ink);
+    background: linear-gradient(45deg, transparent 44%, var(--color-ink) 44% 56%, transparent 56%);
+  }
+
+  .tl { top: 10px; left: 10px; }
+  .tr { top: 10px; right: 10px; }
+  .bl { bottom: 10px; left: 10px; }
+  .br { bottom: 10px; right: 10px; }
+
+  .plate-fields {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .plate-fields dt {
+    margin-bottom: 0.4rem;
+  }
+
+  .redacted {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: var(--color-ink);
+    color: var(--color-honey);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+  }
+
+  .topic {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.65rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: 999px;
+    background: var(--color-paper);
+  }
+
+  .topic-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-honey-deep);
+    animation: topic-fire 3.3s var(--ease-out-quart) var(--delay) infinite;
+  }
+
+  .facts {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .fact {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .fact-num {
+    font-size: 3.75rem;
+    line-height: 0.8;
+    color: var(--color-ink);
+  }
+
+  @keyframes topic-fire {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.35;
+    }
+    8% {
+      transform: scale(1.7);
+      opacity: 1;
+    }
+    30% {
+      transform: scale(1);
+      opacity: 0.35;
+    }
+  }
+</style>

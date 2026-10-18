@@ -1,0 +1,234 @@
+---
+import FlowCanvas from './FlowCanvas.astro';
+import { highlightTs } from '../../lib/highlight';
+
+const source = `import { Workflow } from "konnecthub/flow";
+
+export default class OrderReceived extends Workflow {
+  readOrder() {
+    const order = this.payload as { id: string; total: number };
+    this.log("INFO", \`order \${order.id} for \${order.total}\`);
+    return order;
+  }
+
+  async requestApproval() {
+    const order = await this.getResult<{ id: string; total: number }>("readOrder");
+    if (order.total < 1000) return;
+    const hook = await this.pause();
+    await this.notify.warn(\`Approve order \${order.id}?\`, hook.resumeUrl);
+  }
+
+  summarise() {
+    return { seen: true };
+  }
+}`;
+
+const codeHtml = highlightTs(source);
+const lineCount = source.split('\n').length;
+
+const extras = [
+  { token: 'lib:pricing', text: 'Share code between flows as libraries.' },
+  { token: 'subflow', text: 'Call another flow and wait for its result, or start it and move on.' },
+  { token: 'ws:enrich-order@3', text: 'Turn your own logic into a node type the whole team can drag in.' },
+] as const;
+---
+
+<section id="flows" class="py-(--space-section)" aria-labelledby="flows-title">
+  <div class="wrap">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="label section-index text-mute">06 / Flows</p>
+        <h2 id="flows-title" class="headline mt-6">Type it or wire it. Same flow either way.</h2>
+      </div>
+      <p class="lead text-mute lg:col-span-5">
+        Developers write a TypeScript class. Everyone else builds on a canvas. Both publish, deploy, trigger
+        and show up in the same list of runs.
+      </p>
+    </div>
+
+    <div class="flow-shell machine mt-14 lg:mt-20" data-tabs>
+      <div class="flow-bar">
+        <div role="tablist" aria-label="Ways to build a flow" class="tabs">
+          <button type="button" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="true" class="tab">
+            TypeScript
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-canvas"
+            aria-controls="panel-canvas"
+            aria-selected="false"
+            tabindex="-1"
+            class="tab"
+          >
+            Canvas
+          </button>
+        </div>
+        <p class="label hidden text-haze sm:block">order-received · draft · saved</p>
+      </div>
+
+      <div id="panel-code" role="tabpanel" aria-labelledby="tab-code" class="panel" tabindex="0">
+        <div class="code-grid code">
+          <ol class="gutter tabular" aria-hidden="true">
+            {Array.from({ length: lineCount }, (_, i) => <li>{i + 1}</li>)}
+          </ol>
+          <pre><code set:html={codeHtml} /></pre>
+        </div>
+      </div>
+
+      <div id="panel-canvas" role="tabpanel" aria-labelledby="tab-canvas" class="panel" tabindex="0" hidden>
+        <div class="canvas-wrap">
+          <FlowCanvas />
+        </div>
+      </div>
+    </div>
+
+    <ul class="extras mt-12">
+      {
+        extras.map((extra) => (
+          <li class="extra">
+            <code class="code font-semibold">{extra.token}</code>
+            <p class="mt-2 text-mute">{extra.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+
+    const select = (next: HTMLButtonElement) => {
+      for (const tab of tabs) {
+        const isSelected = tab === next;
+        tab.setAttribute('aria-selected', String(isSelected));
+        tab.tabIndex = isSelected ? 0 : -1;
+        const panel = document.getElementById(tab.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !isSelected;
+      }
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (event) => {
+        const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        event.preventDefault();
+        const next = tabs[(i + step + tabs.length) % tabs.length];
+        select(next);
+        next.focus();
+      });
+    });
+  });
+</script>
+
+<style>
+  .flow-shell {
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .flow-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.75rem 0.6rem 0.6rem;
+    border-bottom: 1px solid var(--color-ink-3);
+  }
+
+  .tabs {
+    display: inline-flex;
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+  }
+
+  .tab {
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: var(--color-haze);
+    transition:
+      background-color var(--duration-fast) linear,
+      color var(--duration-fast) linear;
+  }
+
+  .tab:hover {
+    color: var(--color-paper);
+  }
+
+  .tab[aria-selected='true'] {
+    background: var(--color-honey);
+    color: var(--color-ink);
+  }
+
+  .panel {
+    min-height: 31rem;
+  }
+
+  .panel:not([hidden]) {
+    animation: panel-in 0.45s var(--ease-out-expo);
+  }
+
+  .canvas-wrap {
+    display: grid;
+    align-items: center;
+    min-height: 31rem;
+    padding: 1rem;
+  }
+
+  .code-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    overflow-x: auto;
+    padding-block: 1.5rem;
+  }
+
+  .gutter {
+    padding-inline: 1.25rem 1rem;
+    text-align: right;
+    color: oklch(63% 0.02 70);
+    user-select: none;
+  }
+
+  pre {
+    padding-right: 1.5rem;
+    color: var(--color-paper);
+  }
+
+  pre :global(.tok-keyword) { color: oklch(78% 0.13 300); }
+  pre :global(.tok-string) { color: var(--color-ok); }
+  pre :global(.tok-this) { color: var(--color-honey); font-style: italic; }
+  pre :global(.tok-fn) { color: var(--color-honey); }
+  pre :global(.tok-type) { color: var(--color-held); }
+  pre :global(.tok-number) { color: oklch(78% 0.14 40); }
+  pre :global(.tok-comment) { color: var(--color-haze); }
+
+  .extras {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .extra {
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  @media (min-width: 768px) {
+    .extras {
+      grid-template-columns: 1.2fr 1fr 1.4fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+</style>

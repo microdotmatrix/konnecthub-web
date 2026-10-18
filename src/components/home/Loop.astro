@@ -1,0 +1,22 @@
+---
+import LoopScrolly from './LoopScrolly.svelte';
+---
+
+<section id="platform" class="pt-(--space-section) pb-[clamp(3rem,6vw,6rem)]" aria-labelledby="loop-title">
+  <div class="wrap">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        <p class="label section-index text-mute">01 / The loop</p>
+        <h2 id="loop-title" class="headline mt-6">One loop runs the whole thing.</h2>
+      </div>
+      <p class="lead text-mute lg:col-span-4 lg:self-end">
+        Write it, publish it, deploy it, point a trigger at it, read what happened. No servers to keep
+        alive in between.
+      </p>
+    </div>
+
+    <div class="mt-12 lg:mt-4">
+      <LoopScrolly client:visible />
+    </div>
+  </div>
+</section>

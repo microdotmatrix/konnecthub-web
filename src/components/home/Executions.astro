@@ -1,0 +1,48 @@
+---
+import RunReceipt from './RunReceipt.astro';
+
+const facts = [
+  {
+    term: 'Step by step',
+    detail: 'One row per step: its status, what it returned, how long it took, how often it retried. Logs are tied to the step that wrote them.',
+  },
+  {
+    term: 'Retry the step, not the run',
+    detail: 'When a step throws, only that step runs again. Steps that already succeeded keep their results.',
+  },
+  {
+    term: 'Pause for a person',
+    detail: 'A flow can stop and send an approval link. A paused run holds no worker and can wait for days at no cost.',
+  },
+] as const;
+---
+
+<section id="executions" class="overflow-hidden bg-ink py-(--space-section) text-paper" aria-labelledby="executions-title">
+  <div class="wrap grid items-center gap-16 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-6">
+      <p class="label section-index text-honey">05 / Executions</p>
+      <h2 id="executions-title" class="headline mt-6">
+        When something breaks, <span class="text-honey">read it like a receipt.</span>
+      </h2>
+      <p class="lead mt-8 text-haze">
+        Every run is kept as a complete record for 90 days. No guessing which of five systems dropped the
+        order.
+      </p>
+
+      <dl class="mt-12 grid gap-8">
+        {
+          facts.map((fact) => (
+            <div class="grid gap-1.5 sm:grid-cols-[13rem_1fr] sm:gap-6">
+              <dt class="font-bold text-paper">{fact.term}</dt>
+              <dd class="max-w-[46ch] text-haze">{fact.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="lg:col-span-5 lg:col-start-8">
+      <RunReceipt />
+    </div>
+  </div>
+</section>

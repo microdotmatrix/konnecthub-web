@@ -1,0 +1,90 @@
+---
+import { FOOTER_NAV } from '../../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="overflow-hidden bg-ink text-paper">
+  <div class="wrap grid gap-12 pt-20 pb-10 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <p class="subhead max-w-[16ch] text-honey">Every firing recorded. Every run readable.</p>
+      <p class="mt-4 max-w-[38ch] text-haze">
+        A hosted runtime for the flows between your store and everything around it.
+      </p>
+    </div>
+
+    <nav aria-label="Footer" class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 md:col-span-7">
+      {
+        FOOTER_NAV.map((group) => (
+          <div>
+            <h2 class="label text-haze">{group.heading}</h2>
+            <ul class="mt-4 space-y-2.5">
+              {group.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="footer-link"
+                    {...(link.external ? { rel: 'noopener', target: '_blank' } : {})}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+  </div>
+
+  <svg class="wordmark" viewBox="0 0 1000 190" aria-hidden="true" focusable="false">
+    <text x="0" y="172" textLength="1000" lengthAdjust="spacingAndGlyphs">KonnectHub</text>
+  </svg>
+
+  <div class="wrap flex flex-wrap justify-between gap-4 border-t border-ink-3 py-6 text-sm text-haze">
+    <p>© {year} KonnectHub</p>
+    <p class="label">Runs in sandboxed workers. Nothing to host.</p>
+  </div>
+</footer>
+
+<style>
+  .footer-link {
+    position: relative;
+    font-weight: 500;
+    color: var(--color-paper);
+  }
+
+  .footer-link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -2px;
+    height: 2px;
+    background: var(--color-honey);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .footer-link:hover::after,
+  .footer-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* SVG so the decorative wordmark spans the full width at any size. */
+  .wordmark {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: -2.5%;
+    padding-inline: var(--gutter);
+  }
+
+  .wordmark text {
+    fill: var(--color-ink-3);
+    font-family: var(--font-sans);
+    font-size: 228px;
+    font-weight: 900;
+    font-stretch: 62%;
+  }
+</style>

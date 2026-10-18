@@ -1,0 +1,90 @@
+---
+import { APP_URL, CONTACT_PATH } from '../../data/site';
+
+const jobs = [
+  { ask: 'New Shopify orders land in the ERP', parts: 'event source → flow → connection' },
+  { ask: 'Stock levels sync from the warehouse every hour', parts: 'schedule → flow → data store' },
+  { ask: 'Refunds over $500 wait for a manager', parts: 'webhook → flow → pause' },
+  { ask: 'Customers and orders kept in step with the CRM', parts: 'event source → subflow → custom service' },
+] as const;
+---
+
+<section id="done-for-you" class="drench on-honey py-(--space-section)" aria-labelledby="dfy-title">
+  <div class="wrap">
+    <p class="label section-index text-ink-soft">09 / Done for you</p>
+    <h2 id="dfy-title" class="display dfy-title mt-6">
+      <span class="block">Rather not build it?</span>
+      <span class="block">We will.</span>
+    </h2>
+
+    <div class="mt-14 grid gap-14 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-5">
+        <p class="lead">
+          Tell us which systems need to talk. Our team scopes the work, builds it on KonnectHub and runs it where
+          you can see every firing and every run.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href={CONTACT_PATH} class="cta-ink">
+            Book a build call
+            <span class="cta-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="/services" class="cta-line">See services</a>
+        </div>
+        <p class="mt-8 text-ink-soft">
+          Prefer to build it yourself?{' '}
+          <a href={APP_URL} class="font-bold underline decoration-2 underline-offset-4 hover:decoration-honey-deep">
+            Start a workspace</a
+          >.
+        </p>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <p class="label text-ink-soft">Typical jobs</p>
+        <ol class="jobs mt-4">
+          {
+            jobs.map((job, i) => (
+              <li class="job">
+                <span class="job-num display tabular" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <p class="text-lg leading-snug font-bold">{job.ask}</p>
+                  <p class="code mt-1 text-ink-soft">{job.parts}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dfy-title {
+    font-size: clamp(3.25rem, 0.5rem + 8.5vw, 9rem);
+  }
+
+  .jobs {
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 1.15rem;
+    border-bottom: 2px solid var(--color-ink);
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .job:hover {
+    transform: translateX(6px);
+  }
+
+  .job-num {
+    font-size: 2.5rem;
+    line-height: 0.8;
+  }
+</style>

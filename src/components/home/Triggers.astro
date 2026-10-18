@@ -1,0 +1,76 @@
+---
+import TriggerMachine from './TriggerMachine.svelte';
+
+const specs = [
+  {
+    kind: 'Webhook',
+    line: 'A URL the platform issues. Any method, any body. Optional HMAC check, with SHA256 or SHA512, so you know the sender is real.',
+  },
+  {
+    kind: 'Schedule',
+    line: 'A cron pattern or a single instant, in the time zone you name. 09:00 stays 09:00 when the clocks change.',
+  },
+  {
+    kind: 'Event source',
+    line: 'A named channel that flows and services publish to. Connect Shopify and its topics are already there.',
+  },
+] as const;
+---
+
+<section id="triggers" class="bg-ink py-(--space-section) text-paper" aria-labelledby="triggers-title">
+  <div class="wrap">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="label section-index text-honey">02 / Triggers</p>
+        <h2 id="triggers-title" class="headline mt-6">
+          Three ways in. <span class="text-honey">Nothing slips past.</span>
+        </h2>
+      </div>
+      <p class="lead text-haze lg:col-span-5">
+        Every firing writes exactly one event, even when nothing is listening. So "we got three deliveries
+        and ran nothing" is a fact on screen, not a mystery in a log.
+      </p>
+    </div>
+
+    <div class="mt-16 lg:mt-20">
+      <TriggerMachine client:visible />
+    </div>
+
+    <dl class="specs mt-16 lg:mt-20">
+      {
+        specs.map((spec) => (
+          <div class="spec">
+            <dt class="label text-honey">{spec.kind}</dt>
+            <dd class="text-haze">{spec.line}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .specs {
+    display: grid;
+    border-top: 1px solid var(--color-ink-3);
+  }
+
+  .spec {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--color-ink-3);
+  }
+
+  .spec dd {
+    max-width: 60ch;
+  }
+
+  @media (min-width: 768px) {
+    .spec {
+      grid-template-columns: 14rem 1fr;
+      gap: 2rem;
+      align-items: baseline;
+    }
+  }
+</style>

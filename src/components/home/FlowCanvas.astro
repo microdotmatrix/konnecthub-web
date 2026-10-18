@@ -1,0 +1,125 @@
+---
+/** Static picture of the same flow built as a graph on the canvas. */
+const nodes = [
+  { id: 'payload', x: 10, y: 130, title: '$payload', kind: 'Trigger', sub: 'webhook body' },
+  { id: 'enrich', x: 225, y: 130, title: 'Enrich order', kind: 'Workspace', sub: 'ws:enrich-order@3' },
+  { id: 'if', x: 440, y: 130, title: 'If', kind: 'Core', sub: 'in.total > 1000' },
+  { id: 'pause', x: 655, y: 28, title: 'Pause', kind: 'Core', sub: 'wait for approval' },
+  { id: 'invoice', x: 870, y: 130, title: 'Create invoice', kind: 'Apps', sub: 'my-erp' },
+] as const;
+
+const W = 180;
+const H = 84;
+const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+
+const edge = (from: string, to: string) => {
+  const a = byId[from];
+  const b = byId[to];
+  const x1 = a.x + W;
+  const y1 = a.y + H / 2;
+  const x2 = b.x;
+  const y2 = b.y + H / 2;
+  const mid = (x1 + x2) / 2;
+  return `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`;
+};
+
+const edges = [
+  { d: edge('payload', 'enrich'), label: '' },
+  { d: edge('enrich', 'if'), label: 'ok' },
+  { d: edge('if', 'pause'), label: 'true' },
+  { d: edge('if', 'invoice'), label: 'false' },
+  { d: edge('pause', 'invoice'), label: '' },
+];
+---
+
+<div class="canvas-scroll">
+  <svg viewBox="0 0 1060 260" class="canvas" role="img" aria-label="The same flow as a graph: payload, enrich order, an if node on order total, an optional pause for approval, then create invoice.">
+    <defs>
+      <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r="1" fill="oklch(32% 0.022 62)"></circle>
+      </pattern>
+    </defs>
+    <rect width="1060" height="260" fill="url(#dots)"></rect>
+
+    {edges.map((e) => <path d={e.d} class="edge" />)}
+
+    {
+      nodes.map((n) => (
+        <g transform={`translate(${n.x} ${n.y})`} class:list={['node', n.id === 'if' && 'is-selected']}>
+          <rect width={W} height={H} rx="8" />
+          <circle cx="0" cy={H / 2} r="4.5" class="port" />
+          <circle cx={W} cy={H / 2} r="4.5" class="port" />
+          <text x="14" y="24" class="kind">{n.kind}</text>
+          <text x="14" y="50" class="title">{n.title}</text>
+          <text x="14" y="70" class="sub">{n.sub}</text>
+        </g>
+      ))
+    }
+
+    <text x="598" y="84" class="edge-label">true</text>
+    <text x="640" y="190" class="edge-label">false</text>
+  </svg>
+</div>
+
+<style>
+  .canvas-scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .canvas {
+    display: block;
+    width: 100%;
+    min-width: 720px;
+    height: auto;
+  }
+
+  .edge {
+    fill: none;
+    stroke: var(--color-honey-deep);
+    stroke-width: 2;
+  }
+
+  .node rect {
+    fill: var(--color-ink-2);
+    stroke: var(--color-ink-3);
+    stroke-width: 1.5;
+  }
+
+  .node.is-selected rect {
+    stroke: var(--color-honey);
+    stroke-width: 2.5;
+  }
+
+  .port {
+    fill: var(--color-ink);
+    stroke: var(--color-honey);
+    stroke-width: 2;
+  }
+
+  .kind,
+  .edge-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    fill: var(--color-honey);
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: 700;
+    fill: var(--color-paper);
+  }
+
+  .sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-haze);
+  }
+
+  .edge-label {
+    fill: var(--color-haze);
+  }
+</style>

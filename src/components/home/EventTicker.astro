@@ -1,0 +1,73 @@
+---
+/** A moving strip of real-looking firings. Decorative: hidden from assistive tech, still under reduced motion. */
+const firings = [
+  { source: 'shopify.orders.create', target: 'order-received', status: 'SUCCEEDED' },
+  { source: 'cron 0 4 * * *', target: 'nightly-report', status: 'SUCCEEDED' },
+  { source: 'POST /webhooks/trigger', target: 'erp-invoice', status: 'SUCCEEDED' },
+  { source: 'shopify.products.update', target: 'product-to-feed', status: 'SUCCEEDED' },
+  { source: 'order.paid', target: 'crm-upsert', status: 'WAITING_RERUN' },
+  { source: 'POST /webhooks/trigger', target: 'staging (off)', status: 'HELD' },
+  { source: 'refund.requested', target: 'refund-approval', status: 'PAUSED' },
+] as const;
+---
+
+<div class="ticker" aria-hidden="true" data-live>
+  <div class="ticker-track">
+    {
+      [0, 1].map(() => (
+        <ul class="ticker-set">
+          {firings.map((f) => (
+            <li class="ticker-item">
+              <span>{f.source}</span>
+              <span class="text-honey-deep">→</span>
+              <span class="font-semibold">{f.target}</span>
+              <span class="status" data-status={f.status}>{f.status.replace('_', ' ')}</span>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .ticker {
+    overflow: hidden;
+    border-block: 2px solid var(--color-ink);
+    background: var(--color-paper);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 48s linear infinite;
+  }
+
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+
+  .ticker-set {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.05rem 2.25rem;
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    border-right: 1px solid var(--color-rule);
+  }
+
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

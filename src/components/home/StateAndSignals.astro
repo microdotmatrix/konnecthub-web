@@ -1,0 +1,259 @@
+---
+import { highlightTs } from '../../lib/highlight';
+
+const rows = [
+  { shopify: '#5512', erp: 'SO-88412', customer: 'ada@northwind.co', synced: '14:02:53' },
+  { shopify: '#5511', erp: 'SO-88411', customer: 'li@harbor.shop', synced: '14:02:31' },
+  { shopify: '#5510', erp: 'SO-88409', customer: 'sam@fielder.io', synced: '14:01:58' },
+  { shopify: '#5509', erp: 'SO-88407', customer: 'ada@northwind.co', synced: '14:01:12' },
+] as const;
+
+const storeCode = highlightTs(`const ids = store(this, this.input.orderMap);
+await ids.insert({ shopify_id, erp_id, customer: matchRef({ email }) });`);
+
+// A day of a deployment failing every minute. Ticks are sampled for drawing.
+const TICKS = 96;
+const OUTAGE_START = 9;
+const OUTAGE_END = 84;
+const ticks = Array.from({ length: TICKS }, (_, i) => i >= OUTAGE_START && i < OUTAGE_END);
+const at = (i: number) => `${((i / TICKS) * 100).toFixed(2)}%`;
+---
+
+<section class="bg-paper-2 py-(--space-section)" aria-labelledby="state-title">
+  <div class="wrap">
+    <p class="label section-index text-mute">07 / Data stores & notifications</p>
+
+    <div class="mt-10 grid gap-20 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-7">
+        <h2 id="state-title" class="headline">State that outlives a run.</h2>
+        <p class="lead mt-6 text-mute">
+          Workspace tables with columns you define. Map one system's ids to another's, keep a queue, or hold a
+          lookup table someone edits by hand. Rows can point at rows in other stores.
+        </p>
+
+        <figure class="store mt-10" data-live aria-label="Example data store mapping Shopify orders to ERP orders">
+          <figcaption class="store-head">
+            <span class="label">store · order_map</span>
+            <span class="label text-mute">4 of 18,204 rows</span>
+          </figcaption>
+          <div class="store-body overflow-x-auto">
+            <span class="row-flash" aria-hidden="true"></span>
+            <table class="store-table code">
+              <thead>
+                <tr>
+                  <th scope="col">shopify_id</th>
+                  <th scope="col">erp_id</th>
+                  <th scope="col">customer <span class="ref">→ customers</span></th>
+                  <th scope="col" class="text-right">synced</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  rows.map((row) => (
+                    <tr>
+                      <td>{row.shopify}</td>
+                      <td>{row.erp}</td>
+                      <td>
+                        <span class="ref-cell">{row.customer}</span>
+                      </td>
+                      <td class="tabular text-right">{row.synced}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+          <pre class="store-code code"><code set:html={storeCode} /></pre>
+        </figure>
+      </div>
+
+      <div class="lg:col-span-5">
+        <h2 class="headline">Quiet until it matters.</h2>
+        <p class="lead mt-6 text-mute">
+          Tuned to under-report. A single failed run notifies nobody. A connection that stops authenticating
+          does, right away.
+        </p>
+
+        <figure class="day mt-10" aria-labelledby="day-caption">
+          <div class="day-strip" aria-hidden="true">
+            {ticks.map((isFail, i) => <span class:list={['tick', isFail && 'fail']} style={`left: ${at(i)}`} />)}
+            <span class="flag" style={`left: ${at(OUTAGE_START)}`}>
+              <span class="flag-dot fail" />
+            </span>
+            <span class="flag" style={`left: ${at(OUTAGE_END)}`}>
+              <span class="flag-dot ok" />
+            </span>
+          </div>
+          <div class="label mt-2 flex justify-between text-mute" aria-hidden="true">
+            <span>00:00</span><span>12:00</span><span>24:00</span>
+          </div>
+
+          <ol class="inbox mt-6">
+            <li class="note-row">
+              <span class="status" data-status="FAILED">CRITICAL</span>
+              <span class="font-semibold">Deployment is failing</span>
+              <span class="code text-mute">02:15</span>
+            </li>
+            <li class="note-row">
+              <span class="status" data-status="SUCCEEDED">INFO</span>
+              <span class="font-semibold">Deployment recovered</span>
+              <span class="code text-mute">21:00</span>
+            </li>
+          </ol>
+
+          <figcaption id="day-caption" class="mt-6 font-medium">
+            Failing every minute for a day: <strong class="font-extrabold">two notifications.</strong> One when it
+            broke, one when it came back.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .store {
+    border: 2px solid var(--color-ink);
+    border-radius: 14px;
+    background: var(--color-paper);
+    overflow: hidden;
+  }
+
+  .store-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .store-table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+  }
+
+  .store-table th,
+  .store-table td {
+    height: var(--row-h);
+    padding: 0 1.1rem;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .store-table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-mute);
+  }
+
+  .ref {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .ref-cell {
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    border: 1px solid var(--color-rule);
+  }
+
+  .store-body {
+    --row-h: 2.75rem;
+    position: relative;
+  }
+
+  /* Flashes the newest row as if a flow just wrote it. Opacity only. */
+  .row-flash {
+    position: absolute;
+    top: var(--row-h);
+    left: 0;
+    width: max(100%, 34rem);
+    height: var(--row-h);
+    background: var(--color-honey);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    opacity: 0;
+    animation: row-write 4s var(--ease-out-quart) infinite;
+  }
+
+  .store-code {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .store-code :global(.tok-keyword) { color: oklch(78% 0.13 300); }
+  .store-code :global(.tok-this) { color: var(--color-honey); font-style: italic; }
+  .store-code :global(.tok-fn) { color: var(--color-honey); }
+
+  .day-strip {
+    position: relative;
+    height: 4.5rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .tick {
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    height: 0.9rem;
+    background: var(--color-rule);
+  }
+
+  .tick.fail {
+    height: 1.6rem;
+    background: var(--color-fail);
+  }
+
+  .flag {
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    height: 4.5rem;
+    background: var(--color-ink);
+  }
+
+  .flag-dot {
+    position: absolute;
+    top: -0.35rem;
+    left: 50%;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 2px solid var(--color-ink);
+    border-radius: 50%;
+    transform: translateX(-50%);
+  }
+
+  .flag-dot.fail { background: var(--color-fail); }
+  .flag-dot.ok { background: var(--color-ok); }
+
+  .inbox {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .note-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--color-ink);
+    border-radius: 10px;
+    background: var(--color-paper);
+  }
+
+  @keyframes row-write {
+    0%,
+    6% {
+      opacity: 0.8;
+    }
+    40%,
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

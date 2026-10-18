@@ -1,23 +1,64 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/martian-mono/wdth.css';
+import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import '../styles/global.css';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'KonnectHub · Integrations that show their work',
+  description = 'KonnectHub runs the flows between your store and every system around it. Triggered by webhooks, schedules and events. Every firing recorded, every run readable, nothing dropped.',
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffc107" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="label sr-only z-50 bg-ink px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+    >
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <script>
+      // Set here, not inline in <head>: if this script fails, intro animations never hide content.
+      document.documentElement.classList.add('js');
+
+      // Live scenes animate only while visible: CSS pauses any [data-live] element without data-live="on".
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            entry.target.setAttribute('data-live', entry.isIntersecting ? 'on' : 'off');
+          }
+        },
+        { rootMargin: '80px 0px' },
+      );
+      document.querySelectorAll('[data-live]').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

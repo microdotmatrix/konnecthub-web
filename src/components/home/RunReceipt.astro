@@ -1,0 +1,206 @@
+---
+/** A printed execution record. Rows "print" in order once the receipt scrolls into view. */
+const steps = [
+  { name: 'readOrder', ms: 38, note: '' },
+  { name: 'lookupCustomer', ms: 120, note: '' },
+  { name: 'reserveStock', ms: 611, note: 'retried 1×' },
+  { name: 'createInvoice', ms: 402, note: '' },
+  { name: 'notifyWarehouse', ms: 247, note: '' },
+] as const;
+
+const logs = [
+  { level: 'INFO', step: 'readOrder', text: 'order A-1001 for 42.5' },
+  { level: 'WARN', step: 'reserveStock', text: 'ERP timed out, retrying' },
+  { level: 'INFO', step: 'createInvoice', text: 'invoice INV-2207' },
+] as const;
+
+const maxMs = Math.max(...steps.map((s) => s.ms));
+const totalMs = steps.reduce((sum, s) => sum + s.ms, 0);
+let row = 0;
+const nextDelay = () => `--d: ${(row++ * 0.16).toFixed(2)}s`;
+---
+
+<figure class="receipt" data-live aria-label="Example execution record for order A-1001">
+  <div class="receipt-body code">
+    <p class="print text-center font-bold tracking-[0.2em]" style={nextDelay()}>KONNECTHUB · EXECUTION</p>
+    <p class="print text-center" style={nextDelay()}>exec_8f6d · order-received v4</p>
+
+    <dl class="print meta" style={nextDelay()}>
+      <dt>deployment</dt><dd>production</dd>
+      <dt>trigger</dt><dd>shopify.orders.create</dd>
+      <dt>started</dt><dd>14:02:53</dd>
+    </dl>
+
+    <hr class="print" style={nextDelay()} />
+
+    <table class="steps">
+      <caption class="sr-only">Steps</caption>
+      <thead>
+        <tr class="print" style={nextDelay()}>
+          <th scope="col">step</th>
+          <th scope="col" class="text-right">ms</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          steps.map((step) => (
+            <tr class="print" style={nextDelay()}>
+              <td>
+                <span class="flex items-center gap-2">
+                  <span class="tick" aria-hidden="true">✓</span>
+                  {step.name}
+                  {step.note && <span class="note">{step.note}</span>}
+                </span>
+                <span class="bar" style={`--w: ${(step.ms / maxMs).toFixed(3)}`} aria-hidden="true" />
+              </td>
+              <td class="tabular text-right align-top">{step.ms}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <hr class="print" style={nextDelay()} />
+
+    <ul class="logs">
+      {
+        logs.map((log) => (
+          <li class="print" style={nextDelay()}>
+            <span class:list={['lvl', log.level === 'WARN' && 'warn']}>{log.level}</span>
+            <span class="font-semibold">{log.step}</span> {log.text}
+          </li>
+        ))
+      }
+    </ul>
+
+    <hr class="print" style={nextDelay()} />
+
+    <p class="print flex justify-between" style={nextDelay()}>
+      <span>result</span><span>{'{ invoice: "INV-2207" }'}</span>
+    </p>
+    <p class="print total" style={nextDelay()}>
+      <span>SUCCEEDED</span><span class="tabular">{(totalMs / 1000).toFixed(2)} s</span>
+    </p>
+  </div>
+</figure>
+
+<style>
+  .receipt {
+    --zig: 9px;
+    width: min(100%, 27rem);
+    margin-inline: auto;
+    transform: rotate(1.6deg);
+    filter: drop-shadow(0 30px 40px oklch(10% 0.02 60 / 0.55));
+  }
+
+  .receipt-body {
+    padding: 1.75rem 1.5rem calc(1.75rem + var(--zig));
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1rem;
+    margin-top: 1rem;
+  }
+
+  .meta dt {
+    color: var(--color-mute);
+  }
+
+  .meta dd {
+    text-align: right;
+  }
+
+  hr {
+    margin: 0.9rem 0;
+    border: 0;
+    border-top: 1.5px dashed var(--color-mute);
+  }
+
+  .steps {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .steps th {
+    font-weight: 500;
+    text-align: left;
+    color: var(--color-mute);
+  }
+
+  .steps td {
+    padding-block: 0.2rem;
+  }
+
+  .tick {
+    color: oklch(48% 0.14 150);
+    font-weight: 700;
+  }
+
+  .note {
+    padding: 0 0.35rem;
+    border-radius: 3px;
+    background: var(--color-honey);
+    font-size: 0.625rem;
+  }
+
+  .bar {
+    display: block;
+    height: 4px;
+    margin-top: 0.2rem;
+    border-radius: 2px;
+    background: var(--color-ink);
+    transform-origin: left;
+    transform: scaleX(var(--w));
+  }
+
+  .lvl {
+    display: inline-block;
+    width: 2.6rem;
+    color: var(--color-mute);
+  }
+
+  .lvl.warn {
+    color: oklch(50% 0.16 50);
+    font-weight: 700;
+  }
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.65rem;
+    background: var(--color-ink);
+    color: var(--color-ok);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  /* Only hide rows when JS can reveal them again. */
+  :global(.js) .print {
+    animation: print-in 0.5s var(--ease-out-expo) var(--d, 0s) both;
+  }
+
+  :global(.js) .bar {
+    animation: bar-grow 0.9s var(--ease-out-expo) calc(var(--d, 0s) + 0.15s) both;
+  }
+
+  @keyframes print-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes bar-grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+</style>

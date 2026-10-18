@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+/*
+  KonnectHub marketing tokens.
+  Paper is the base, honey is the loud brand color, ink holds the "machine" scenes.
+  Every neutral is tinted toward the honey hue.
+*/
+@theme {
+  --color-paper: oklch(97.2% 0.012 85);
+  --color-paper-2: oklch(93.2% 0.022 82);
+  --color-ink: oklch(19% 0.018 60);
+  --color-ink-2: oklch(23.5% 0.02 60);
+  --color-ink-3: oklch(32% 0.022 62);
+  --color-ink-soft: oklch(31% 0.03 62);
+  --color-honey: oklch(84.5% 0.17 82);
+  --color-honey-deep: oklch(74% 0.18 58);
+  --color-mute: oklch(43% 0.025 65);
+  --color-haze: oklch(78% 0.02 78);
+  --color-rule: oklch(85% 0.02 80);
+
+  --color-ok: oklch(72% 0.17 150);
+  --color-run: oklch(84.5% 0.17 82);
+  --color-held: oklch(74% 0.11 235);
+  --color-fail: oklch(66% 0.2 30);
+  --color-wait: oklch(80% 0.1 300);
+
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Martian Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+  --text-hero: clamp(2.85rem, 0.6rem + 10.2vw, 11rem);
+  --text-h2: clamp(2.6rem, 1rem + 5vw, 6.25rem);
+  --text-h3: clamp(1.5rem, 1.15rem + 1.1vw, 2.1rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+  --text-label: 0.6875rem;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --header-h: 4rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --space-section: clamp(5.5rem, 3rem + 8vw, 11rem);
+  --duration-fast: 160ms;
+  --duration-normal: 320ms;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grid children may shrink below their content (code, nowrap rows) instead of overflowing. */
+  :where(.grid) > * {
+    min-width: 0;
+  }
+
+  ::selection {
+    background: var(--color-honey);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-honey-deep);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .on-honey :focus-visible {
+    outline-color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Ultra-condensed black Archivo: the loud voice. */
+  .display {
+    font-stretch: 62%;
+    font-weight: 900;
+    line-height: 0.86;
+    letter-spacing: -0.012em;
+    word-spacing: 0.06em;
+    text-wrap: balance;
+  }
+
+  .headline {
+    font-stretch: 68%;
+    font-weight: 850;
+    font-size: var(--text-h2);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    word-spacing: 0.04em;
+    text-wrap: balance;
+  }
+
+  .subhead {
+    font-stretch: 80%;
+    font-weight: 800;
+    font-size: var(--text-h3);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .lead {
+    font-size: var(--text-lead);
+    line-height: 1.45;
+    max-width: 46ch;
+    text-wrap: pretty;
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .code {
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+
+  /* Execution status tag. Color plus a text label, never color alone. */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.28em 0.55em 0.24em;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--color-ink);
+    background: var(--status-color, var(--color-haze));
+  }
+
+  .status::before {
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.75;
+  }
+
+  .status[data-status="SUCCEEDED"] { --status-color: var(--color-ok); }
+  .status[data-status="RUNNING"] { --status-color: var(--color-run); }
+  .status[data-status="HELD"] { --status-color: var(--color-held); }
+  .status[data-status="FAILED"] { --status-color: var(--color-fail); }
+  .status[data-status="WAITING_RERUN"],
+  .status[data-status="PAUSED"],
+  .status[data-status="WAITING"] { --status-color: var(--color-wait); }
+
+  .status[data-status="RUNNING"]::before {
+    animation: status-blink 0.9s steps(2, jump-none) infinite;
+  }
+
+  /* Honey drench with a faint print grain. */
+  .drench {
+    background-color: var(--color-honey);
+    background-image:
+      radial-gradient(120% 90% at 100% 0%, oklch(80% 0.18 70 / 0.55), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 0 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    color: var(--color-ink);
+  }
+
+  .machine {
+    background: var(--color-ink-2);
+    color: var(--color-paper);
+    border: 1px solid var(--color-ink-3);
+  }
+
+  /* Buttons: heavy pills that lift onto a hard offset shadow. */
+  .cta-ink,
+  .cta-honey,
+  .cta-line {
+    --cta-shadow: var(--color-honey-deep);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65em;
+    padding: 0.95em 1.4em 0.9em;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 750;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      transform var(--duration-fast) var(--ease-out-quart),
+      box-shadow var(--duration-fast) var(--ease-out-quart),
+      background-color var(--duration-fast) linear;
+  }
+
+  .cta-ink {
+    background: var(--color-ink);
+    color: var(--color-honey);
+  }
+
+  .cta-honey {
+    --cta-shadow: var(--color-paper);
+    background: var(--color-honey);
+    color: var(--color-ink);
+  }
+
+  .cta-line {
+    --cta-shadow: var(--color-ink);
+    box-shadow: inset 0 0 0 2px currentColor;
+  }
+
+  .cta-ink:hover,
+  .cta-honey:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 3px 3px 0 0 var(--cta-shadow);
+  }
+
+  .cta-line:hover {
+    background: var(--color-ink);
+    color: var(--color-honey);
+    box-shadow: inset 0 0 0 2px var(--color-ink);
+  }
+
+  .cta-ink:active,
+  .cta-honey:active,
+  .cta-line:active {
+    transform: translate(0, 0);
+    box-shadow: 0 0 0 0 var(--cta-shadow);
+  }
+
+  .cta-sm {
+    padding: 0.7em 1.1em 0.66em;
+    font-size: 0.9375rem;
+  }
+
+  .cta-arrow {
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  :is(.cta-ink, .cta-honey, .cta-line):hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  .section-index {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .section-index::after {
+    content: "";
+    flex: 0 0 3rem;
+    align-self: center;
+    height: 2px;
+    background: currentColor;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes status-blink {
+  to { opacity: 0.15; }
+}
+
+/*
+  Live scenes only animate while on screen. A small observer in the layout sets
+  data-live="on" on any [data-live] element that is visible.
+*/
+[data-live]:not([data-live="on"]),
+[data-live]:not([data-live="on"]) * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-motion="decorative"] {
+    display: none !important;
+  }
+}

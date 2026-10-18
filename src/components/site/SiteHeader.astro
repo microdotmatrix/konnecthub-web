@@ -1,0 +1,162 @@
+---
+import Logo from './Logo.astro';
+import { APP_URL, CONTACT_PATH, PRIMARY_NAV } from '../../data/site';
+---
+
+<header class="on-honey drench sticky top-0 z-40 h-(--header-h) border-b-2 border-ink">
+  <nav aria-label="Main" class="wrap flex h-full items-center justify-between gap-6">
+    <a href="/" class="rounded-md" aria-label="KonnectHub home">
+      <Logo tile="ink" />
+    </a>
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {
+        PRIMARY_NAV.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="nav-link"
+              {...(link.external ? { rel: 'noopener', target: '_blank' } : {})}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hidden items-center gap-5 lg:flex">
+      <a href={APP_URL} class="nav-link">Sign in</a>
+      <a href={CONTACT_PATH} class="cta-ink cta-sm">Book a build call</a>
+    </div>
+
+    <button
+      type="button"
+      class="menu-toggle lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-toggle
+    >
+      <span class="label">Menu</span>
+      <span class="burger" aria-hidden="true"></span>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu lg:hidden" hidden>
+    <ul class="wrap flex flex-col py-4">
+      {
+        PRIMARY_NAV.map((link) => (
+          <li>
+            <a href={link.href} class="mobile-link" {...(link.external ? { rel: 'noopener', target: '_blank' } : {})}>
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li><a href={APP_URL} class="mobile-link">Sign in</a></li>
+      <li class="pt-4"><a href={CONTACT_PATH} class="cta-ink w-full justify-center">Book a build call</a></li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+    };
+
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !menu.hidden) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .nav-link {
+    position: relative;
+    padding: 0.5rem 0.75rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0.75rem;
+    bottom: 0.3rem;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .menu-toggle,
+    .mobile-menu {
+      display: none;
+    }
+  }
+
+  .burger,
+  .burger::before {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-ink);
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .burger::before {
+    content: '';
+    transform: translateY(6px);
+  }
+
+  .menu-toggle[aria-expanded='true'] .burger {
+    transform: translateY(3px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded='true'] .burger::before {
+    transform: rotate(-90deg);
+  }
+
+  .mobile-menu {
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--color-honey);
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .mobile-link {
+    display: block;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid oklch(19% 0.018 60 / 0.18);
+    font-size: 1.75rem;
+    font-weight: 850;
+    font-stretch: 70%;
+  }
+</style>

@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T04:44:29.438Z",
+  "title": "Design System: KonnectHub",
+  "extensions": {
+    "colorMeta": {
+      "signal-honey": {
+        "role": "primary",
+        "displayName": "Signal Honey",
+        "canonical": "oklch(84.5% 0.17 82)",
+        "tonalRamp": [
+          "oklch(15% 0.03 82)",
+          "oklch(26% 0.17 82)",
+          "oklch(37% 0.17 82)",
+          "oklch(48% 0.17 82)",
+          "oklch(59% 0.17 82)",
+          "oklch(70% 0.17 82)",
+          "oklch(82% 0.17 82)",
+          "oklch(95% 0.03 82)"
+        ]
+      },
+      "signal-honey-deep": {
+        "role": "primary",
+        "displayName": "Deep Signal Amber",
+        "canonical": "oklch(74% 0.18 58)",
+        "tonalRamp": [
+          "oklch(15% 0.03 58)",
+          "oklch(26% 0.18 58)",
+          "oklch(37% 0.18 58)",
+          "oklch(48% 0.18 58)",
+          "oklch(59% 0.18 58)",
+          "oklch(70% 0.18 58)",
+          "oklch(82% 0.18 58)",
+          "oklch(95% 0.03 58)"
+        ]
+      },
+      "shop-paper": {
+        "role": "neutral",
+        "displayName": "Shop Paper",
+        "canonical": "oklch(97.2% 0.012 85)",
+        "tonalRamp": [
+          "oklch(15% 0.012 85)",
+          "oklch(26% 0.012 85)",
+          "oklch(37% 0.012 85)",
+          "oklch(48% 0.012 85)",
+          "oklch(59% 0.012 85)",
+          "oklch(70% 0.012 85)",
+          "oklch(82% 0.012 85)",
+          "oklch(95% 0.012 85)"
+        ]
+      },
+      "shop-paper-shade": {
+        "role": "neutral",
+        "displayName": "Shop Paper Shade",
+        "canonical": "oklch(93.2% 0.022 82)",
+        "tonalRamp": [
+          "oklch(15% 0.022 82)",
+          "oklch(26% 0.022 82)",
+          "oklch(37% 0.022 82)",
+          "oklch(48% 0.022 82)",
+          "oklch(59% 0.022 82)",
+          "oklch(70% 0.022 82)",
+          "oklch(82% 0.022 82)",
+          "oklch(95% 0.022 82)"
+        ]
+      },
+      "engine-ink": {
+        "role": "neutral",
+        "displayName": "Engine Ink",
+        "canonical": "oklch(19% 0.018 60)",
+        "tonalRamp": [
+          "oklch(15% 0.018 60)",
+          "oklch(26% 0.018 60)",
+          "oklch(37% 0.018 60)",
+          "oklch(48% 0.018 60)",
+          "oklch(59% 0.018 60)",
+          "oklch(70% 0.018 60)",
+          "oklch(82% 0.018 60)",
+          "oklch(95% 0.018 60)"
+        ]
+      },
+      "engine-housing": {
+        "role": "neutral",
+        "displayName": "Engine Housing",
+        "canonical": "oklch(23.5% 0.02 60)",
+        "tonalRamp": [
+          "oklch(15% 0.02 60)",
+          "oklch(26% 0.02 60)",
+          "oklch(37% 0.02 60)",
+          "oklch(48% 0.02 60)",
+          "oklch(59% 0.02 60)",
+          "oklch(70% 0.02 60)",
+          "oklch(82% 0.02 60)",
+          "oklch(95% 0.02 60)"
+        ]
+      },
+      "engine-seam": {
+        "role": "neutral",
+        "displayName": "Engine Seam",
+        "canonical": "oklch(32% 0.022 62)",
+        "tonalRamp": [
+          "oklch(15% 0.022 62)",
+          "oklch(26% 0.022 62)",
+          "oklch(37% 0.022 62)",
+          "oklch(48% 0.022 62)",
+          "oklch(59% 0.022 62)",
+          "oklch(70% 0.022 62)",
+          "oklch(82% 0.022 62)",
+          "oklch(95% 0.022 62)"
+        ]
+      },
+      "soft-engine-ink": {
+        "role": "neutral",
+        "displayName": "Soft Engine Ink",
+        "canonical": "oklch(31% 0.03 62)",
+        "tonalRamp": [
+          "oklch(15% 0.03 62)",
+          "oklch(26% 0.03 62)",
+          "oklch(37% 0.03 62)",
+          "oklch(48% 0.03 62)",
+          "oklch(59% 0.03 62)",
+          "oklch(70% 0.03 62)",
+          "oklch(82% 0.03 62)",
+          "oklch(95% 0.03 62)"
+        ]
+      },
+      "worn-ink": {
+        "role": "neutral",
+        "displayName": "Worn Ink",
+        "canonical": "oklch(43% 0.025 65)",
+        "tonalRamp": [
+          "oklch(15% 0.025 65)",
+          "oklch(26% 0.025 65)",
+          "oklch(37% 0.025 65)",
+          "oklch(48% 0.025 65)",
+          "oklch(59% 0.025 65)",
+          "oklch(70% 0.025 65)",
+          "oklch(82% 0.025 65)",
+          "oklch(95% 0.025 65)"
+        ]
+      },
+      "exhaust-haze": {
+        "role": "neutral",
+        "displayName": "Exhaust Haze",
+        "canonical": "oklch(78% 0.02 78)",
+        "tonalRamp": [
+          "oklch(15% 0.02 78)",
+          "oklch(26% 0.02 78)",
+          "oklch(37% 0.02 78)",
+          "oklch(48% 0.02 78)",
+          "oklch(59% 0.02 78)",
+          "oklch(70% 0.02 78)",
+          "oklch(82% 0.02 78)",
+          "oklch(95% 0.02 78)"
+        ]
+      },
+      "shop-rule": {
+        "role": "neutral",
+        "displayName": "Shop Rule",
+        "canonical": "oklch(85% 0.02 80)",
+        "tonalRamp": [
+          "oklch(15% 0.02 80)",
+          "oklch(26% 0.02 80)",
+          "oklch(37% 0.02 80)",
+          "oklch(48% 0.02 80)",
+          "oklch(59% 0.02 80)",
+          "oklch(70% 0.02 80)",
+          "oklch(82% 0.02 80)",
+          "oklch(95% 0.02 80)"
+        ]
+      },
+      "status-ok": {
+        "role": "status",
+        "displayName": "Run Green",
+        "canonical": "oklch(72% 0.17 150)",
+        "tonalRamp": [
+          "oklch(15% 0.03 150)",
+          "oklch(26% 0.17 150)",
+          "oklch(37% 0.17 150)",
+          "oklch(48% 0.17 150)",
+          "oklch(59% 0.17 150)",
+          "oklch(70% 0.17 150)",
+          "oklch(82% 0.17 150)",
+          "oklch(95% 0.03 150)"
+        ]
+      },
+      "status-run": {
+        "role": "status",
+        "displayName": "Running (Signal Honey)",
+        "canonical": "oklch(84.5% 0.17 82)",
+        "tonalRamp": [
+          "oklch(15% 0.03 82)",
+          "oklch(26% 0.17 82)",
+          "oklch(37% 0.17 82)",
+          "oklch(48% 0.17 82)",
+          "oklch(59% 0.17 82)",
+          "oklch(70% 0.17 82)",
+          "oklch(82% 0.17 82)",
+          "oklch(95% 0.03 82)"
+        ]
+      },
+      "status-held": {
+        "role": "status",
+        "displayName": "Held Blue",
+        "canonical": "oklch(74% 0.11 235)",
+        "tonalRamp": [
+          "oklch(15% 0.03 235)",
+          "oklch(26% 0.11 235)",
+          "oklch(37% 0.11 235)",
+          "oklch(48% 0.11 235)",
+          "oklch(59% 0.11 235)",
+          "oklch(70% 0.11 235)",
+          "oklch(82% 0.11 235)",
+          "oklch(95% 0.03 235)"
+        ]
+      },
+      "status-fail": {
+        "role": "status",
+        "displayName": "Fail Red",
+        "canonical": "oklch(66% 0.2 30)",
+        "tonalRamp": [
+          "oklch(15% 0.03 30)",
+          "oklch(26% 0.2 30)",
+          "oklch(37% 0.2 30)",
+          "oklch(48% 0.2 30)",
+          "oklch(59% 0.2 30)",
+          "oklch(70% 0.2 30)",
+          "oklch(82% 0.2 30)",
+          "oklch(95% 0.03 30)"
+        ]
+      },
+      "status-wait": {
+        "role": "status",
+        "displayName": "Wait Lilac",
+        "canonical": "oklch(80% 0.1 300)",
+        "tonalRamp": [
+          "oklch(15% 0.03 300)",
+          "oklch(26% 0.1 300)",
+          "oklch(37% 0.1 300)",
+          "oklch(48% 0.1 300)",
+          "oklch(59% 0.1 300)",
+          "oklch(70% 0.1 300)",
+          "oklch(82% 0.1 300)",
+          "oklch(95% 0.03 300)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero line and the Done For You close. Two per page at most."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "One per section. Short literal sentences."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel titles, connection names, footer statement."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The one paragraph under a headline. Max 46ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Facts and descriptions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase mono. Section indices, field names, meta."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Topics, flow parts, terminal lines, receipt rows."
+      }
+    },
+    "shadows": [
+      {
+        "name": "bench-offset-ink",
+        "value": "10px 10px 0 0 var(--color-ink)",
+        "purpose": "Plates and demos on paper or honey (12px on the held demo)."
+      },
+      {
+        "name": "bench-offset-honey",
+        "value": "12px 12px 0 0 var(--color-honey)",
+        "purpose": "The terminal on an ink section."
+      },
+      {
+        "name": "button-lift",
+        "value": "3px 3px 0 0 var(--cta-shadow)",
+        "purpose": "Ink and honey CTA hover, paired with translate(-3px, -3px)."
+      },
+      {
+        "name": "float-board",
+        "value": "0 1px 0 0 oklch(100% 0 0 / 0.06) inset, 0 40px 80px -30px oklch(19% 0.05 60 / 0.55), 0 18px 30px -18px oklch(19% 0.05 60 / 0.5)",
+        "purpose": "Hero run board only."
+      },
+      {
+        "name": "float-receipt",
+        "value": "drop-shadow(0 30px 40px oklch(10% 0.02 60 / 0.55))",
+        "purpose": "Printed receipt only (filter, follows zigzag edge)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Reveals, underlines, arrows, prints."
+      },
+      {
+        "name": "ease-out-quart",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Button lift, pulses, short state changes."
+      },
+      {
+        "name": "duration-fast",
+        "value": "160ms",
+        "purpose": "Button lift and press."
+      },
+      {
+        "name": "duration-normal",
+        "value": "320ms",
+        "purpose": "Underlines, arrows, list slides."
+      },
+      {
+        "name": "steps-blink",
+        "value": "steps(2, jump-none)",
+        "purpose": "Running dot, caret, typing."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Primary action on paper and honey. Lifts onto a hard amber offset.",
+      "html": "<button class=\"ds-btn-ink\">Book a build call <span class=\"ds-btn-arrow\" aria-hidden=\"true\">→</span></button>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: center; gap: 0.65em; padding: 0.95em 1.4em 0.9em; border: 0; border-radius: 999px; font-family: var(--font-sans, \"Archivo Variable\", system-ui, sans-serif); font-size: 1rem; font-weight: 750; line-height: 1; white-space: nowrap; cursor: pointer; transition: transform 160ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 160ms cubic-bezier(0.25, 1, 0.5, 1), background-color 160ms linear; background: oklch(19% 0.018 60); color: oklch(84.5% 0.17 82); } .ds-btn-ink:hover { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 0 oklch(74% 0.18 58); } .ds-btn-ink:active { transform: none; box-shadow: none; } .ds-btn-ink:focus-visible { outline: 3px solid oklch(74% 0.18 58); outline-offset: 3px; } .ds-btn-arrow { transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-ink:hover .ds-btn-arrow { transform: translateX(4px); }"
+    },
+    {
+      "name": "Honey Button",
+      "kind": "button",
+      "refersTo": "button-honey",
+      "description": "Primary action on ink sections. Lifts onto a paper offset.",
+      "html": "<div class=\"ds-ink-ground\"><button class=\"ds-btn-honey\">Start a workspace</button></div>",
+      "css": ".ds-ink-ground { padding: 2rem; background: oklch(19% 0.018 60); } .ds-btn-honey { display: inline-flex; align-items: center; gap: 0.65em; padding: 0.95em 1.4em 0.9em; border: 0; border-radius: 999px; font-family: var(--font-sans, \"Archivo Variable\", system-ui, sans-serif); font-size: 1rem; font-weight: 750; line-height: 1; white-space: nowrap; cursor: pointer; transition: transform 160ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 160ms cubic-bezier(0.25, 1, 0.5, 1), background-color 160ms linear; background: oklch(84.5% 0.17 82); color: oklch(19% 0.018 60); } .ds-btn-honey:hover { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 0 oklch(97.2% 0.012 85); } .ds-btn-honey:active { transform: none; box-shadow: none; } .ds-btn-honey:focus-visible { outline: 3px solid oklch(74% 0.18 58); outline-offset: 3px; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Secondary action. 2px ring, fills ink on hover.",
+      "html": "<button class=\"ds-btn-line\">See services</button>",
+      "css": ".ds-btn-line { display: inline-flex; align-items: center; gap: 0.65em; padding: 0.95em 1.4em 0.9em; border: 0; border-radius: 999px; font-family: var(--font-sans, \"Archivo Variable\", system-ui, sans-serif); font-size: 1rem; font-weight: 750; line-height: 1; white-space: nowrap; cursor: pointer; transition: transform 160ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 160ms cubic-bezier(0.25, 1, 0.5, 1), background-color 160ms linear; background: transparent; color: oklch(19% 0.018 60); box-shadow: inset 0 0 0 2px currentColor; } .ds-btn-line:hover { background: oklch(19% 0.018 60); color: oklch(84.5% 0.17 82); } .ds-btn-line:focus-visible { outline: 3px solid oklch(74% 0.18 58); outline-offset: 3px; }"
+    },
+    {
+      "name": "Status Tag",
+      "kind": "chip",
+      "refersTo": "status-tag",
+      "description": "Execution status. Color plus label, never color alone.",
+      "html": "<div class=\"ds-row\"><span class=\"ds-status ds-ok\">SUCCEEDED</span><span class=\"ds-status ds-run\">RUNNING</span><span class=\"ds-status ds-held\">HELD</span><span class=\"ds-status ds-fail\">FAILED</span><span class=\"ds-status ds-wait\">PAUSED</span></div>",
+      "css": ".ds-row { display: flex; flex-wrap: wrap; gap: 0.5rem; } .ds-status { display: inline-flex; align-items: center; gap: 0.4em; padding: 0.28em 0.55em 0.24em; border-radius: 3px; font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.05em; line-height: 1; color: oklch(19% 0.018 60); } .ds-status::before { content: \"\"; width: 0.5em; height: 0.5em; border-radius: 50%; background: currentColor; opacity: 0.75; } .ds-ok { background: oklch(72% 0.17 150); } .ds-run { background: oklch(84.5% 0.17 82); } .ds-run::before { animation: ds-blink 0.9s steps(2, jump-none) infinite; } .ds-held { background: oklch(74% 0.11 235); } .ds-fail { background: oklch(66% 0.2 30); } .ds-wait { background: oklch(80% 0.1 300); } @keyframes ds-blink { to { opacity: 0.15; } } @media (prefers-reduced-motion: reduce) { .ds-run::before { animation: none; } }"
+    },
+    {
+      "name": "Topic Chip",
+      "kind": "chip",
+      "refersTo": "topic-chip",
+      "description": "An event topic with a firing dot.",
+      "html": "<span class=\"ds-topic\"><span class=\"ds-topic-dot\" aria-hidden=\"true\"></span>shopify.orders.create</span>",
+      "css": ".ds-topic { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.65rem; border: 1.5px solid oklch(19% 0.018 60); border-radius: 999px; background: oklch(97.2% 0.012 85); color: oklch(19% 0.018 60); font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.8125rem; } .ds-topic-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: oklch(74% 0.18 58); animation: ds-fire 3.3s cubic-bezier(0.25, 1, 0.5, 1) infinite; } @keyframes ds-fire { 0%, 100% { transform: scale(1); opacity: 0.35; } 8% { transform: scale(1.7); opacity: 1; } 30% { transform: scale(1); opacity: 0.35; } } @media (prefers-reduced-motion: reduce) { .ds-topic-dot { animation: none; opacity: 1; } }"
+    },
+    {
+      "name": "Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "A product object on the bench: screwed corners, 2px ink border, hard offset.",
+      "html": "<figure class=\"ds-plate\"><span class=\"ds-screw ds-tl\"></span><span class=\"ds-screw ds-tr\"></span><span class=\"ds-screw ds-bl\"></span><span class=\"ds-screw ds-br\"></span><p class=\"ds-plate-label\">Connection · Shopify · OAuth2</p><p class=\"ds-plate-title\">acme-store</p><p class=\"ds-plate-label\" style=\"margin-top:1.4rem\">Shop domain</p><p class=\"ds-plate-code\">acme-store.myshopify.com</p></figure>",
+      "css": ".ds-plate { position: relative; margin: 0; max-width: 26rem; padding: 2rem; border: 2px solid oklch(19% 0.018 60); border-radius: 14px; background: oklch(93.2% 0.022 82); color: oklch(19% 0.018 60); box-shadow: 10px 10px 0 0 oklch(19% 0.018 60); } .ds-screw { position: absolute; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid oklch(19% 0.018 60); background: linear-gradient(45deg, transparent 44%, oklch(19% 0.018 60) 44% 56%, transparent 56%); } .ds-tl { top: 10px; left: 10px; } .ds-tr { top: 10px; right: 10px; } .ds-bl { bottom: 10px; left: 10px; } .ds-br { bottom: 10px; right: 10px; } .ds-plate-label { margin: 0; font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: oklch(43% 0.025 65); } .ds-plate-title { margin: 0.5rem 0 0; font-family: var(--font-sans, \"Archivo Variable\", system-ui, sans-serif); font-size: 1.75rem; font-weight: 800; font-stretch: 80%; line-height: 1.02; } .ds-plate-code { margin: 0.4rem 0 0; font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.8125rem; }"
+    },
+    {
+      "name": "Machine Board",
+      "kind": "custom",
+      "refersTo": "machine-board",
+      "description": "Live executions board. Ink housing, seam dividers, mono header.",
+      "html": "<section class=\"ds-board\"><header class=\"ds-board-head\"><p class=\"ds-board-live\"><span class=\"ds-live-dot\"></span>LIVE · PRODUCTION</p><p class=\"ds-board-count\">events <b>12,408</b></p></header><ol class=\"ds-rows\"><li class=\"ds-board-row\"><span>order-received</span><span class=\"ds-board-status\">RUNNING</span></li><li class=\"ds-board-row\"><span>nightly-report</span><span class=\"ds-board-status ds-board-ok\">SUCCEEDED</span></li></ol></section>",
+      "css": ".ds-board { max-width: 32rem; border-radius: 18px; overflow: hidden; background: oklch(23.5% 0.02 60); color: oklch(97.2% 0.012 85); border: 1px solid oklch(32% 0.022 62); box-shadow: 0 40px 80px -30px oklch(19% 0.05 60 / 0.55), 0 18px 30px -18px oklch(19% 0.05 60 / 0.5); font-family: var(--font-sans, \"Archivo Variable\", system-ui, sans-serif); } .ds-board-head { display: flex; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid oklch(32% 0.022 62); font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; } .ds-board-head p { margin: 0; } .ds-board-live { display: flex; align-items: center; gap: 0.5rem; color: oklch(84.5% 0.17 82); } .ds-live-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: oklch(84.5% 0.17 82); } .ds-board-count { color: oklch(78% 0.02 78); } .ds-board-count b { color: oklch(97.2% 0.012 85); font-weight: 500; } .ds-rows { margin: 0; padding: 0; list-style: none; } .ds-board-row { display: flex; justify-content: space-between; align-items: center; height: 4.25rem; padding-inline: 1.25rem; border-bottom: 1px solid oklch(32% 0.022 62 / 0.6); font-weight: 600; } .ds-board-row:first-child { background: oklch(84.5% 0.17 82 / 0.06); } .ds-board-row:last-child { border-bottom: 0; } .ds-board-status { padding: 0.28em 0.55em 0.24em; border-radius: 3px; background: oklch(84.5% 0.17 82); color: oklch(19% 0.018 60); font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.05em; } .ds-board-ok { background: oklch(72% 0.17 150); }"
+    },
+    {
+      "name": "Terminal",
+      "kind": "custom",
+      "refersTo": "terminal",
+      "description": "CLI session panel on ink, with a hard honey offset.",
+      "html": "<figure class=\"ds-term\"><div class=\"ds-term-bar\"><span></span><span></span><span></span><p>~/acme-flows</p></div><div class=\"ds-term-body\"><p><span class=\"ds-prompt\">$ </span>konnecthub deploy</p><p class=\"ds-term-out\">pushed → published v4 → bundle READY → active</p><p><span class=\"ds-prompt\">$ </span>konnecthub test</p><p class=\"ds-term-out ds-term-ok\">✓ fixtures/a-1001.json  3 steps  SUCCEEDED</p></div></figure>",
+      "css": ".ds-term { margin: 0 12px 12px 0; max-width: 34rem; border-radius: 14px; overflow: hidden; background: oklch(23.5% 0.02 60); border: 1px solid oklch(32% 0.022 62); box-shadow: 12px 12px 0 0 oklch(84.5% 0.17 82); color: oklch(97.2% 0.012 85); font-family: var(--font-mono, \"Martian Mono Variable\", ui-monospace, monospace); font-size: 0.8125rem; } .ds-term-bar { display: flex; align-items: center; gap: 0.45rem; padding: 0.8rem 1rem; border-bottom: 1px solid oklch(32% 0.022 62); } .ds-term-bar span { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: oklch(32% 0.022 62); } .ds-term-bar p { margin: 0 0 0 0.75rem; font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: oklch(78% 0.02 78); } .ds-term-body { padding: 1.4rem; line-height: 2; } .ds-term-body p { margin: 0; white-space: pre; } .ds-prompt { color: oklch(84.5% 0.17 82); } .ds-term-out { padding-left: 1.2em; margin-bottom: 0.6em !important; color: oklch(78% 0.02 78); } .ds-term-ok { color: oklch(72% 0.17 150); }"
+    },
+    {
+      "name": "Site Header",
+      "kind": "nav",
+      "refersTo": "site-header",
+      "description": "Sticky honey header with 2px ink base and draw-in underlines.",
+      "html": "<header class=\"ds-header\"><nav class=\"ds-nav\"><span class=\"ds-wordmark\">KonnectHub</span><ul><li><a href=\"#\" class=\"ds-nav-link\">Platform</a></li><li><a href=\"#\" class=\"ds-nav-link\">Services</a></li><li><a href=\"#\" class=\"ds-nav-link\">Docs</a></li></ul><a href=\"#\" class=\"ds-nav-cta\">Book a build call</a></nav></header>",
+      "css": ".ds-header { height: 4rem; background: oklch(84.5% 0.17 82); border-bottom: 2px solid oklch(19% 0.018 60); color: oklch(19% 0.018 60); font-family: var(--font-sans, \"Archivo Variable\", system-ui, sans-serif); } .ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 100%; padding-inline: 1.5rem; } .ds-nav ul { display: flex; gap: 0.25rem; margin: 0; padding: 0; list-style: none; } .ds-wordmark { font-size: 1.375rem; font-weight: 800; font-stretch: 75%; letter-spacing: -0.01em; } .ds-nav-link { position: relative; padding: 0.5rem 0.75rem; font-size: 0.9375rem; font-weight: 600; color: inherit; text-decoration: none; } .ds-nav-link::after { content: \"\"; position: absolute; inset-inline: 0.75rem; bottom: 0.3rem; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-nav-link:hover::after, .ds-nav-link:focus-visible::after { transform: scaleX(1); } .ds-nav-link:focus-visible { outline: 3px solid oklch(19% 0.018 60); outline-offset: 3px; border-radius: 4px; } .ds-nav-cta { padding: 0.7em 1.1em 0.66em; border-radius: 999px; background: oklch(19% 0.018 60); color: oklch(84.5% 0.17 82); font-size: 0.9375rem; font-weight: 750; text-decoration: none; transition: transform 160ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 160ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-nav-cta:hover { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 0 oklch(74% 0.18 58); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Machine in Plain Sight",
+    "overview": "**Creative North Star: \"The Machine in Plain Sight\"**\n\nThe site is a machine running in front of the reader. Ink panels hold the live product: run boards tick, receipts print, terminals type, event dots fire. Those panels sit on two loud grounds, Shop Paper and a drenched Signal Honey, so the machine always reads as an object placed on a surface, never as a backdrop. The energy comes from ultra-condensed black type and hard, stamped edges. The substance comes from mono labels and literal copy that match how the platform behaves.\n\nDensity is low per fold and high per object. Each section carries one dominant idea and one working piece of the product. Honey and ink sections punctuate a paper page, so the light changes every few scrolls. No two adjacent sections share a ground. Motion is mechanical: steps, prints, ticks and exponential ease-outs. Nothing bounces. Every live scene pauses off screen and has a static reduced-motion state that still tells the story.\n\nThis system rejects three things by name, from PRODUCT.md: **Zapier / Make clones** (pastel app-icon grids, \"connect 6,000 apps\" tropes, cartoon blobs), the **generic SaaS template** (centered hero with gradient blob, three icon cards, logo strip, hero-metric stats), and **corporate enterprise** (navy palettes, stock handshake photos, safe gray copy, \"solutions\" language).",
+    "keyCharacteristics": [
+      "Drenched honey and warm paper grounds; ink reserved for the machine.",
+      "Ultra-condensed Archivo at weight 850 to 900 for every headline.",
+      "Martian Mono for every label, status, path, topic and number that comes from the product.",
+      "Hard offset shadows with zero blur; soft shadows only on artifacts that float over an edge.",
+      "2px ink rules as structure: section borders, list dividers, header base.",
+      "Status always shown as color plus a text label."
+    ],
+    "rules": [
+      {
+        "name": "The Machine Lives In Ink Rule",
+        "body": "Engine Ink and Engine Housing are for things that run: boards, terminals, flow shells, ink sections. Marketing copy never sits in an ink panel of its own.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Pure Values Rule",
+        "body": "No `#000`, no `#fff`. Every light and dark is tinted toward hue 60 to 85 at chroma 0.012 or more.",
+        "section": "colors"
+      },
+      {
+        "name": "The Label Plus Color Rule",
+        "body": "A status is never a colored dot alone. It is a mono uppercase word on its status fill, with a dot.",
+        "section": "colors"
+      },
+      {
+        "name": "The Condensed Means Loud Rule",
+        "body": "Width under 70% is only for display and headline sizes. Never condense body, lead or labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Product Speaks Mono Rule",
+        "body": "If the string could appear in the KonnectHub app, CLI or logs (a topic, a status, an ID, a path, a duration), it is set in Martian Mono. Marketing claims never are.",
+        "section": "typography"
+      },
+      {
+        "name": "The Indexed Section Rule",
+        "body": "Every section opens with a mono label in the form `NN / Name`, followed by a 3rem, 2px rule. It is the reader's position in the machine.",
+        "section": "typography"
+      },
+      {
+        "name": "The Zero Blur Rule",
+        "body": "Bench offsets have no blur and no spread. If an offset shadow is soft, it is wrong.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Float Is Earned Rule",
+        "body": "A soft shadow is allowed only when the object breaks a surface edge or is tilted. A flat panel inside a section never floats.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** punctuate the paper page with honey and ink sections. Adjacent sections never share a ground (Shop Paper Shade counts as its own ground).",
+      "**Do** put one working piece of the product in every section. If a section has no live or printed artifact, it has no claim.",
+      "**Do** set every product string (topic, status, ID, path, duration, command) in Martian Mono.",
+      "**Do** use 2px Engine Ink rules for structure on paper and honey, and 1px Engine Seam rules inside machine panels.",
+      "**Do** give every animation a reduced-motion state that still shows the final story, and pause every `data-live` scene off screen.",
+      "**Do** ease out with `cubic-bezier(0.16, 1, 0.3, 1)` (expo) or `cubic-bezier(0.25, 1, 0.5, 1)` (quart). Use `steps()` for blinks, typing and ticks.",
+      "**Do** keep copy literal. A headline is a true sentence about how the platform behaves."
+    ],
+    "donts": [
+      "**Don't** build **Zapier / Make clones**: no pastel app-icon grids, no \"connect 6,000 apps\" tropes, no cartoon blobs.",
+      "**Don't** ship the **generic SaaS template**: no centered hero with a gradient blob, no three icon cards, no logo strip, no hero-metric stats.",
+      "**Don't** drift to **corporate enterprise**: no navy palettes, no stock handshake photos, no safe gray copy, no \"solutions\" language.",
+      "**Don't** soften a bench offset with blur. If it looks like a 2014 card shadow, delete it.",
+      "**Don't** show status by color alone. No bare dots, no colored rows without a label.",
+      "**Don't** use `border-left` or `border-right` over 1px as a colored accent stripe.",
+      "**Don't** use gradient text, glassmorphism or backdrop blur.",
+      "**Don't** condense body text, leads or labels below normal width.",
+      "**Don't** use `#000` or `#fff`, or any neutral without the honey tint.",
+      "**Don't** bounce or overshoot. No elastic easing.",
+      "**Don't** use em dashes in copy."
+    ]
+  }
+}
