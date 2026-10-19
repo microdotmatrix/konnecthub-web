@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BookingPanel from '../components/contact/BookingPanel.astro';
+import OtherWays from '../components/contact/OtherWays.astro';
+
+export const prerender = true;
+
+const agenda = [
+  { step: 'Your systems', detail: 'Store, ERP, CRM, warehouse. What talks to what today.' },
+  { step: 'The jobs', detail: 'Which events start a flow, and what must happen next.' },
+  { step: 'The plan', detail: 'What we build, what you own, and how it runs.' },
+] as const;
+---
+
+<Layout
+  title="Contact · KonnectHub"
+  description="Book a build call with the KonnectHub team, or send us an email."
+>
+  <section class="contact drench on-honey relative" aria-labelledby="contact-title">
+    <div class="wrap relative z-10 pt-[clamp(3rem,7vw,6.5rem)]">
+      <p class="label section-index text-ink-soft">Contact</p>
+      <h1 id="contact-title" class="display contact-title mt-6">Book a build call.</h1>
+
+      <div class="mt-10 grid items-start gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-10">
+        <div class="contact-copy lg:col-span-4">
+          <p class="lead">Pick a time for a video call. We scope the work with you, then build and run it on KonnectHub.</p>
+
+          <p class="label mt-10 text-ink-soft">On the call</p>
+          <ol class="agenda mt-4">
+            {
+              agenda.map((item, i) => (
+                <li class="agenda-item">
+                  <span class="agenda-num display tabular" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <p class="font-bold">{item.step}</p>
+                    <p class="mt-0.5 text-ink-soft">{item.detail}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div class="contact-board lg:col-span-8">
+          <BookingPanel />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <OtherWays />
+</Layout>
+
+<style>
+  .contact {
+    /* Same overhang as the home hero: the calendar hangs into the paper below. */
+    --overhang: clamp(6rem, 12vw, 10rem);
+    background-size: auto, 180px 180px;
+  }
+
+  .contact::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: var(--overhang);
+    background: var(--color-paper);
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .contact-title {
+    font-size: clamp(3.25rem, 0.5rem + 9vw, 10rem);
+  }
+
+  .contact-board {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 1rem;
+  }
+
+  .agenda {
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    gap: 0.85rem;
+    align-items: baseline;
+    padding-block: 0.95rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .agenda-num {
+    font-size: 2rem;
+    line-height: 0.8;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-copy {
+      padding-bottom: calc(var(--overhang) + 2.5rem);
+    }
+  }
+</style>

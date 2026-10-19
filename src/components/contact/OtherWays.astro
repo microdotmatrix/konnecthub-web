@@ -1,0 +1,124 @@
+---
+import { APP_URL, CONTACT_EMAIL, DOCS_URL } from '../../data/site';
+
+const routes = [
+  {
+    kicker: 'Build it yourself',
+    title: 'Start a workspace',
+    detail: 'Connect a store, write a flow, watch it run.',
+    href: APP_URL,
+  },
+  {
+    kicker: 'Look before you talk',
+    title: 'Read the docs',
+    detail: 'Triggers, flows, connections and the CLI.',
+    href: DOCS_URL,
+  },
+] as const;
+---
+
+<section class="py-(--space-section)" aria-labelledby="other-title">
+  <div class="wrap">
+    <p class="label section-index text-mute">Other ways in</p>
+    <h2 id="other-title" class="headline mt-6 max-w-[12ch]">No time slot fits?</h2>
+
+    <div class="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-12">
+      <div class="email lg:col-span-7">
+        <p class="label text-mute">Send us an email</p>
+        <p class="subhead mt-3 max-w-[22ch]">Tell us which systems need to talk and what should happen between them.</p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href={`mailto:${CONTACT_EMAIL}`} class="email-addr">{CONTACT_EMAIL}</a>
+          <button type="button" class="cta-line cta-sm" data-copy={CONTACT_EMAIL} hidden>Copy</button>
+          <span class="label text-mute" role="status" data-copy-status></span>
+        </div>
+      </div>
+
+      <ul class="routes lg:col-span-5">
+        {
+          routes.map((route) => (
+            <li>
+              <a href={route.href} class="route" rel="noopener" target="_blank">
+                <span class="label text-mute">{route.kicker}</span>
+                <span class="subhead mt-2 flex items-baseline justify-between gap-4">
+                  {route.title}
+                  <span class="route-arrow" aria-hidden="true">↗</span>
+                </span>
+                <span class="mt-2 block text-mute">{route.detail}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const COPIED_RESET_MS = 2000;
+
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    if (!navigator.clipboard) return;
+    const status = button.parentElement?.querySelector('[data-copy-status]');
+    button.hidden = false;
+
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy ?? '');
+        if (status) status.textContent = 'Copied';
+      } catch {
+        if (status) status.textContent = 'Copy failed. Select the address instead.';
+      }
+      setTimeout(() => {
+        if (status) status.textContent = '';
+      }, COPIED_RESET_MS);
+    });
+  });
+</script>
+
+<style>
+  .email {
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .email-addr {
+    font-stretch: 68%;
+    font-weight: 850;
+    font-size: clamp(1.9rem, 1rem + 3.4vw, 3.75rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.12em;
+    text-decoration-color: var(--color-honey-deep);
+    transition: text-decoration-color var(--duration-fast) linear;
+  }
+
+  .email-addr:hover {
+    text-decoration-color: var(--color-ink);
+  }
+
+  .routes {
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .route {
+    display: block;
+    padding-block: 1.5rem;
+    border-bottom: 2px solid var(--color-ink);
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .route:hover {
+    transform: translateX(6px);
+  }
+
+  .route-arrow {
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .route:hover .route-arrow {
+    transform: translate(3px, -3px);
+  }
+</style>
