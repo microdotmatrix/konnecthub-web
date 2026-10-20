@@ -1,0 +1,248 @@
+---
+import ServiceLogo from './ServiceLogo.astro';
+import { SERVICE_COUNT, SERVICE_GROUPS } from '../../data/services';
+import { CONTACT_PATH } from '../../data/site';
+
+const SHOPIFY_TOPICS = ['shopify.orders.create', 'shopify.orders.paid', 'shopify.products.update'] as const;
+
+const legend = [
+  {
+    kind: 'platform',
+    detail: 'Ships with KonnectHub. Credentials refreshed for you, provider topics defined as event sources, webhooks registered on connect.',
+  },
+  {
+    kind: 'custom',
+    detail: 'Defined once in your workspace, by your agent or our team. Then every flow and every account uses it the same way.',
+  },
+] as const;
+---
+
+<section id="catalogue" class="bg-paper-2 py-(--space-section)" aria-labelledby="catalogue-title">
+  <div class="wrap">
+    <p class="label section-index text-mute">03 / Services</p>
+
+    <div class="mt-6 grid gap-10 lg:grid-cols-12 lg:items-end">
+      <h2 id="catalogue-title" class="headline lg:col-span-7">The systems commerce teams plug in most.</h2>
+      <dl class="legend lg:col-span-4 lg:col-start-9">
+        {
+          legend.map((item) => (
+            <div class="legend-row">
+              <dt>
+                <span class="kind" data-kind={item.kind}>{item.kind}</span>
+              </dt>
+              <dd class="text-mute">{item.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="mt-16 lg:mt-24">
+      {
+        SERVICE_GROUPS.map((group, g) => (
+          <section class="group" aria-labelledby={`group-${group.id}`}>
+            <header class="group-head">
+              <span class="group-num display tabular" aria-hidden="true">
+                {String.fromCharCode(65 + g)}
+              </span>
+              <div>
+                <h3 id={`group-${group.id}`} class="subhead">{group.name}</h3>
+                <p class="label mt-2 text-mute">{group.role}</p>
+              </div>
+            </header>
+
+            <ul class="rows">
+              {group.services.map((service) => (
+                <li class="row" data-kind={service.kind}>
+                  <span class="tile">
+                    <ServiceLogo name={service.key} class="tile-logo" />
+                  </span>
+                  <div class="min-w-0">
+                    <p class="text-xl leading-tight font-extrabold [font-stretch:85%]">{service.name}</p>
+                    <p class="code text-mute">{service.auth.join(' · ')}</p>
+                  </div>
+                  <div class="jobs min-w-0">
+                    <ul>
+                      {service.jobs.map((job) => (
+                        <li>{job}</li>
+                      ))}
+                    </ul>
+                    {service.key === 'shopify' && (
+                      <ul class="mt-3 flex flex-wrap gap-2" aria-label="Shopify event topics">
+                        {SHOPIFY_TOPICS.map((topic) => (
+                          <li class="topic code">{topic}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <span class="kind" data-kind={service.kind}>{service.kind}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <div class="close mt-16 flex flex-wrap items-center justify-between gap-6 lg:mt-20">
+      <p class="subhead max-w-[30ch]">
+        Not on the list? If it has an API, it can be service number {SERVICE_COUNT + 1}.
+      </p>
+      <a href={CONTACT_PATH} class="cta-ink">
+        Tell us what to connect
+        <span class="cta-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .legend {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .legend-row {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  /* Service kind: a product word, so it is set in mono. Platform is filled, custom is outlined. */
+  .kind {
+    display: inline-flex;
+    justify-self: start;
+    align-self: center;
+    padding: 0.32em 0.7em 0.28em;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .kind[data-kind='platform'] {
+    background: var(--color-honey);
+  }
+
+  .group {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: 2.5rem;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .group-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .group-num {
+    font-size: 3.75rem;
+    line-height: 0.8;
+  }
+
+  .rows {
+    display: grid;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+    grid-template-areas:
+      'tile name kind'
+      'jobs jobs jobs';
+    gap: 0.6rem 1rem;
+    align-items: center;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .row:last-child {
+    border-bottom: 0;
+  }
+
+  .row > .tile { grid-area: tile; }
+  .row > div:not(.jobs) { grid-area: name; }
+  .row > .jobs { grid-area: jobs; }
+  .row > .kind { grid-area: kind; }
+
+  .tile {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    border: 2px solid var(--color-ink);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    transition:
+      transform var(--duration-normal) var(--ease-out-expo),
+      box-shadow var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .row[data-kind='platform'] .tile {
+    background: var(--color-honey);
+  }
+
+  .tile :global(.tile-logo) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .row:hover .tile {
+    transform: translate(-3px, -3px);
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+
+  .jobs > ul:first-child {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .topic {
+    padding: 0.2rem 0.6rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: 999px;
+    background: var(--color-paper);
+    font-size: 0.75rem;
+  }
+
+  .close {
+    padding-top: 2.5rem;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  @media (min-width: 768px) {
+    .row {
+      grid-template-columns: 3.25rem minmax(9rem, 13rem) minmax(0, 1fr) 6.5rem;
+      grid-template-areas: 'tile name jobs kind';
+      gap: 1.25rem;
+    }
+
+    .row > .kind {
+      justify-self: end;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .group {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+
+    .group-head {
+      grid-column: span 3;
+    }
+
+    .rows {
+      grid-column: 4 / -1;
+      margin-top: -1.1rem;
+    }
+  }
+</style>

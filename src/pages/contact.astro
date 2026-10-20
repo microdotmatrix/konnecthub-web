@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import BookingPanel from '../components/contact/BookingPanel.astro';
 import OtherWays from '../components/contact/OtherWays.astro';
+import { BOOKING_ANCHOR } from '../data/site';
 
 export const prerender = true;
 
@@ -43,7 +44,7 @@ const agenda = [
           </ol>
         </div>
 
-        <div class="contact-board lg:col-span-8">
+        <div id={BOOKING_ANCHOR} class="contact-board lg:col-span-8">
           <BookingPanel />
         </div>
       </div>
@@ -76,6 +77,7 @@ const agenda = [
 
   .contact-board {
     position: relative;
+    scroll-margin-top: 6rem;
     z-index: 1;
     padding-bottom: 1rem;
   }

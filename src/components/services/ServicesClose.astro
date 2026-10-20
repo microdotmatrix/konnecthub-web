@@ -1,0 +1,117 @@
+---
+import ServiceLogo from './ServiceLogo.astro';
+import type { LogoKey } from '../../data/logos';
+import { CONTACT_PATH, DOCS_URL } from '../../data/site';
+
+interface Recipe {
+  from: LogoKey;
+  to: LogoKey;
+  ask: string;
+  parts: string;
+}
+
+const recipes: readonly Recipe[] = [
+  { from: 'woocommerce', to: 'zoho', ask: 'Paid WooCommerce orders become Zoho Books invoices', parts: 'webhook → flow → custom service' },
+  { from: 'shopify', to: 'quickbooks', ask: 'Shopify refunds become QuickBooks credit notes', parts: 'event source → flow → custom service' },
+  { from: 'stripe', to: 'googlesheets', ask: 'Stripe payouts reconciled in a sheet every morning', parts: 'schedule → flow → custom service' },
+  { from: 'shopify', to: 'slack', ask: 'Refunds over $500 wait for a manager in Slack', parts: 'event source → flow → pause' },
+  { from: 'n8n', to: 'bigcommerce', ask: 'Your n8n workflows update BigCommerce stock', parts: 'webhook → flow → platform service' },
+];
+---
+
+<section id="build" class="drench on-honey py-(--space-section)" aria-labelledby="build-title">
+  <div class="wrap">
+    <p class="label section-index text-ink-soft">05 / Build it with us</p>
+    <h2 id="build-title" class="display close-title mt-6">
+      <span class="block">Name two systems.</span>
+      <span class="block">We wire them.</span>
+    </h2>
+
+    <div class="mt-14 grid gap-14 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-5">
+        <p class="lead">
+          Hand it to your agent, or hand it to us. Our team defines the services, builds the flows and runs them
+          in a workspace you can read end to end.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href={CONTACT_PATH} class="cta-ink">
+            Book a build call
+            <span class="cta-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href={`${DOCS_URL}/cli/install`} class="cta-line" rel="noopener" target="_blank">Install the CLI</a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <p class="label text-ink-soft">Jobs we wire most</p>
+        <ol class="recipes mt-4">
+          {
+            recipes.map((recipe) => (
+              <li class="recipe">
+                <span class="pair" aria-hidden="true">
+                  <span class="pair-tile"><ServiceLogo name={recipe.from} class="pair-logo" /></span>
+                  <span class="pair-tile"><ServiceLogo name={recipe.to} class="pair-logo" /></span>
+                </span>
+                <div>
+                  <p class="text-lg leading-snug font-bold">{recipe.ask}</p>
+                  <p class="code mt-1 text-ink-soft">{recipe.parts}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .close-title {
+    font-size: clamp(3.25rem, 0.5rem + 8.5vw, 9rem);
+  }
+
+  .recipes {
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .recipe {
+    display: grid;
+    grid-template-columns: 4.75rem 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1.1rem;
+    border-bottom: 2px solid var(--color-ink);
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .recipe:hover {
+    transform: translateX(6px);
+  }
+
+  /* Two marks overlap like plugs in adjacent sockets. */
+  .pair {
+    display: flex;
+  }
+
+  .pair-tile {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid var(--color-ink);
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .pair-tile + .pair-tile {
+    margin-left: -0.6rem;
+    background: var(--color-ink);
+    color: var(--color-honey);
+  }
+
+  .pair-tile :global(.pair-logo) {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+</style>

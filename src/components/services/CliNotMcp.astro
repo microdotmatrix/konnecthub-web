@@ -1,0 +1,170 @@
+---
+import { APP_URL } from '../../data/site';
+
+const steps = [
+  { name: 'Install', cmd: `curl -fsSL ${APP_URL}/install.sh | sh`, note: 'checks the download against a published checksum' },
+  { name: 'Sign in', cmd: 'konnecthub login', note: 'pick the workspace in the browser' },
+  { name: 'Start a project', cmd: 'konnecthub init', note: 'links nothing until you ask' },
+  { name: 'Teach the agent', cmd: 'konnecthub skills', note: 'writes agent instructions to .claude/skills/' },
+] as const;
+
+const facts = [
+  {
+    title: 'Files, not a server',
+    body: 'Skills are plain Markdown in your repo. Commit them, review them, diff them. Nothing runs in the background.',
+  },
+  {
+    title: 'The whole API, in reach',
+    body: '<code>konnecthub routes</code> lists every route and <code>konnecthub api</code> calls any of them. The agent is never stuck behind a missing tool.',
+  },
+  {
+    title: 'Output made for machines',
+    body: 'Every command takes <code>--json</code>. Streams come back as NDJSON, one line per record.',
+  },
+  {
+    title: 'Scoped like you, or less',
+    body: 'A token can do what you can, minus what you did not grant. <code>konnecthub whoami</code> prints its scopes.',
+  },
+] as const;
+---
+
+<section id="cli-skills" class="py-(--space-section)" aria-labelledby="cli-skills-title">
+  <div class="wrap">
+    <p class="label section-index text-mute">01 / CLI & skills</p>
+    <h2 id="cli-skills-title" class="headline mt-6 max-w-[17ch]">No MCP server. No plugin. One CLI.</h2>
+    <p class="lead mt-8 text-mute">
+      Install the KonnectHub CLI and run one command. Your agent gets instruction files in the repo and every
+      command it needs to build, test and ship a flow.
+    </p>
+
+    <div class="mt-16 grid gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-10">
+      <figure class="plate lg:col-span-6" aria-label="Setup in four commands">
+        <span class="screw tl" aria-hidden="true"></span>
+        <span class="screw tr" aria-hidden="true"></span>
+        <span class="screw bl" aria-hidden="true"></span>
+        <span class="screw br" aria-hidden="true"></span>
+
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="label text-mute">Setup · ~/acme-flows</p>
+            <p class="subhead mt-2">Four commands</p>
+          </div>
+          <span class="status" data-status="SUCCEEDED">READY</span>
+        </div>
+
+        <ol class="steps mt-8">
+          {
+            steps.map((step, i) => (
+              <li class="step">
+                <span class="step-num label text-mute tabular">{String(i + 1).padStart(2, '0')}</span>
+                <div class="min-w-0">
+                  <p class="font-bold">{step.name}</p>
+                  <pre class="step-cmd code"><span class="text-honey" aria-hidden="true">$ </span>{step.cmd}</pre>
+                  <p class="code mt-1.5 text-mute">{step.note}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </figure>
+
+      <div class="lg:col-span-5 lg:col-start-8">
+        <ol class="facts">
+          {
+            facts.map((fact, i) => (
+              <li class="fact">
+                <span class="fact-num display tabular" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="text-xl font-extrabold [font-stretch:85%]">{fact.title}</h3>
+                  <p class="fact-body mt-1.5 text-mute" set:html={fact.body} />
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate {
+    position: relative;
+    align-self: start;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 2px solid var(--color-ink);
+    border-radius: 14px;
+    background: var(--color-paper-2);
+    box-shadow: 10px 10px 0 0 var(--color-ink);
+  }
+
+  .screw {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-ink);
+    background: linear-gradient(45deg, transparent 44%, var(--color-ink) 44% 56%, transparent 56%);
+  }
+
+  .tl { top: 10px; left: 10px; }
+  .tr { top: 10px; right: 10px; }
+  .bl { bottom: 10px; left: 10px; }
+  .br { bottom: 10px; right: 10px; }
+
+  .steps {
+    border-top: 2px dashed var(--color-rule);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.75rem;
+    padding-block: 1.1rem;
+    border-bottom: 2px dashed var(--color-rule);
+  }
+
+  .step:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .step-num {
+    padding-top: 0.3rem;
+  }
+
+  .step-cmd {
+    margin-top: 0.5rem;
+    padding: 0.55rem 0.8rem;
+    overflow-x: auto;
+    border-radius: 6px;
+    background: var(--color-ink-2);
+    color: var(--color-paper);
+  }
+
+  .facts {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .fact {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .fact-num {
+    font-size: 3.75rem;
+    line-height: 0.8;
+  }
+
+  .fact-body :global(code) {
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+    font-size: 0.875em;
+    color: var(--color-ink);
+  }
+</style>

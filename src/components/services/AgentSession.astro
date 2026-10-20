@@ -1,0 +1,293 @@
+---
+import ServiceLogo from './ServiceLogo.astro';
+import { AGENTS } from '../../data/services';
+
+type Line = { kind: 'you' | 'agent' | 'cmd' | 'out'; text: string; tone?: 'ok' | 'dim' };
+
+const lines: readonly Line[] = [
+  { kind: 'you', text: 'Connect our WooCommerce store. When an order is paid, create the invoice in Zoho Books.' },
+  { kind: 'agent', text: 'Neither is a platform service. I will define both as custom services.' },
+  { kind: 'cmd', text: 'konnecthub routes services' },
+  { kind: 'out', text: '4 routes match "services"', tone: 'dim' },
+  { kind: 'cmd', text: 'konnecthub api POST /services --json' },
+  { kind: 'out', text: '✓ woocommerce  TOKEN    ✓ zoho-books  OAUTH2', tone: 'ok' },
+  { kind: 'agent', text: 'Add the store keys and sign in to Zoho under Connections. I never see them.' },
+  { kind: 'cmd', text: 'konnecthub new woo-paid-to-zoho' },
+  { kind: 'out', text: '✓ flow created, draft linked', tone: 'ok' },
+  { kind: 'cmd', text: 'konnecthub test' },
+  { kind: 'out', text: '✓ fixtures/order-4412.json  3 steps  SUCCEEDED', tone: 'ok' },
+  { kind: 'cmd', text: 'konnecthub deploy' },
+  { kind: 'out', text: 'pushed → published v1 → bundle READY → active', tone: 'dim' },
+  { kind: 'agent', text: 'Live. Each paid order is one event and one run you can open.' },
+];
+
+// Commands "type"; everything else appears. Each line starts after the previous one.
+let clock = 0.3;
+const timed = lines.map((line) => {
+  const duration = line.kind === 'cmd' ? Math.max(0.5, line.text.length * 0.026) : 0.3;
+  const start = clock;
+  const pause = { you: 0.7, agent: 0.5, cmd: 0.2, out: 0.35 }[line.kind];
+  clock += duration + pause;
+  return { ...line, style: `--d: ${start.toFixed(2)}s; --t: ${duration.toFixed(2)}s; --n: ${line.text.length + 1}` };
+});
+
+const facts = [
+  {
+    term: 'Keys stay in KonnectHub',
+    detail: 'Connections are created in the app, the only place credentials are entered. The agent names a connection. The platform resolves it when a flow runs.',
+  },
+  {
+    term: 'Same draft as the browser',
+    detail: 'What the agent pushes, you can open in the editor. If you edit while it pushes, the CLI merges.',
+  },
+  {
+    term: 'It reads its own runs',
+    detail: 'konnecthub inspect explains why a run did what it did, summary first. The agent fixes from the record, not from a guess.',
+  },
+] as const;
+---
+
+<section id="agents" class="overflow-hidden bg-ink py-(--space-section) text-paper" aria-labelledby="agents-title">
+  <div class="wrap">
+    <p class="label section-index text-honey">02 / Agent-built connections</p>
+    <h2 id="agents-title" class="headline mt-6 max-w-[16ch]">
+      Tell your agent. <span class="text-honey">It does the wiring.</span>
+    </h2>
+
+    <div class="mt-10 flex flex-wrap items-end justify-between gap-x-10 gap-y-8">
+      <p class="lead text-haze">
+        Describe the job in plain words. The agent defines the services, writes the flow, tests it against
+        fixtures and deploys. You add the keys.
+      </p>
+
+      <ul class="agents" aria-label="Works with">
+        {
+          AGENTS.map((agent) => (
+            <li class="agent-chip">
+              <ServiceLogo name={agent.key} class="agent-logo" />
+              <span>
+                <span class="block font-bold">{agent.name}</span>
+                <span class="code block text-haze">{agent.bin}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="mt-14 grid gap-14 lg:mt-16 lg:grid-cols-12 lg:gap-10">
+      <figure class="term lg:col-span-8" data-live aria-label="Example agent session that builds a WooCommerce to Zoho Books flow">
+        <div class="term-bar" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <p class="label ml-3 text-haze">agent · ~/acme-flows</p>
+        </div>
+        <div class="term-body">
+          {
+            timed.map((line) => (
+              <p class:list={['term-line', line.kind, line.tone]} style={line.style}>
+                {line.kind === 'you' && <span class="who label">You</span>}
+                {line.kind === 'agent' && <span class="who label text-honey">Agent</span>}
+                {line.kind === 'cmd' && <span class="prompt" aria-hidden="true">$ </span>}
+                <span class="term-text">{line.text}</span>
+              </p>
+            ))
+          }
+          <span class="caret" aria-hidden="true" style={`--d: ${clock.toFixed(2)}s`}></span>
+        </div>
+      </figure>
+
+      <dl class="grid content-start gap-8 lg:col-span-4">
+        {
+          facts.map((fact) => (
+            <div class="border-t border-ink-3 pt-5">
+              <dt class="text-lg font-bold">{fact.term}</dt>
+              <dd class="mt-1.5 text-haze">{fact.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .agents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .agent-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 1rem 0.6rem 0.65rem;
+    border: 1px solid var(--color-ink-3);
+    border-radius: 999px;
+    line-height: 1.25;
+    transition:
+      border-color var(--duration-fast) linear,
+      transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .agent-chip:hover {
+    border-color: var(--color-honey);
+    transform: translateY(-2px);
+  }
+
+  .agent-chip :global(.agent-logo) {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.4rem;
+    border-radius: 50%;
+    background: var(--color-honey);
+    color: var(--color-ink);
+  }
+
+  .agent-chip .code {
+    font-size: 0.6875rem;
+    line-height: 1.4;
+  }
+
+  .term {
+    align-self: start;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-ink-2);
+    border: 1px solid var(--color-ink-3);
+    box-shadow: 12px 12px 0 0 var(--color-honey);
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--color-ink-3);
+  }
+
+  .term-bar > span {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--color-ink-3);
+  }
+
+  .term-body {
+    min-height: 30rem;
+    padding: 1.4rem 1.4rem 1.8rem;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+    font-size: 0.8125rem;
+    line-height: 1.9;
+  }
+
+  .term-line {
+    display: block;
+    white-space: pre;
+  }
+
+  /* Prose lines wrap; only commands and their output keep terminal spacing. */
+  .term-line.you,
+  .term-line.agent {
+    display: grid;
+    grid-template-columns: 4.25rem 1fr;
+    gap: 0.5rem;
+    white-space: normal;
+    font-family: var(--font-sans);
+    font-stretch: 100%;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-block: 0.4rem 0.9rem;
+  }
+
+  .term-line.you {
+    padding: 0.75rem 0.9rem;
+    border-radius: 8px;
+    background: var(--color-ink-3);
+    margin-top: 0;
+  }
+
+  .term-line.agent .term-text {
+    color: var(--color-paper);
+  }
+
+  .who {
+    padding-top: 0.2rem;
+  }
+
+  .term-line.out {
+    padding-left: 1.2em;
+  }
+
+  .term-line.out + .term-line.cmd {
+    margin-top: 0.35em;
+  }
+
+  .prompt {
+    color: var(--color-honey);
+  }
+
+  .term-line.ok {
+    color: var(--color-ok);
+  }
+
+  .term-line.dim {
+    color: var(--color-haze);
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    vertical-align: -0.2em;
+    background: var(--color-honey);
+    animation: blink 1s steps(2, jump-none) var(--d) infinite;
+  }
+
+  /* Typing only runs when JS is present, so no-JS readers see the full session. */
+  :global(.js) .term-line.cmd .term-text {
+    display: inline-block;
+    vertical-align: top;
+    animation: type var(--t) steps(var(--n), jump-none) var(--d) both;
+  }
+
+  :global(.js) .term-line:is(.out, .you, .agent) {
+    animation: appear 0.35s var(--ease-out-quart) var(--d) both;
+  }
+
+  :global(.js) .term-line.cmd .prompt {
+    animation: appear 0.01s linear var(--d) both;
+  }
+
+  @media (max-width: 639.98px) {
+    .term-line.you,
+    .term-line.agent {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+
+  @keyframes type {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  @keyframes blink {
+    to {
+      opacity: 0;
+    }
+  }
+</style>

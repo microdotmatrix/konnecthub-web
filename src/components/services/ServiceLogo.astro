@@ -1,0 +1,23 @@
+---
+import { LOGOS, WORDMARK_SCALE, type LogoKey } from '../../data/logos';
+
+interface Props {
+  name: LogoKey;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const scale = WORDMARK_SCALE[name];
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  aria-hidden="true"
+  focusable="false"
+  style={scale ? `scale: ${scale}` : undefined}
+>
+  <path fill="currentColor" d={LOGOS[name]}></path>
+</svg>

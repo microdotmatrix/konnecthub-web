@@ -4,6 +4,7 @@ export const CONTACT_PATH = '/contact';
 
 // TODO: swap for the shared inquiries inbox once it exists.
 export const CONTACT_EMAIL = 'hello@konnecthub.io';
+export const BOOKING_ANCHOR = 'book';
 export const BOOKING_URL = 'https://cannadevices-dispomart.zohobookings.com/portal-embed#/4318055000002054260';
 
 export interface NavLink {
@@ -15,7 +16,6 @@ export interface NavLink {
 export const PRIMARY_NAV: readonly NavLink[] = [
   { label: 'Platform', href: '/#platform' },
   { label: 'Services', href: '/services' },
-  { label: 'Pricing', href: '/pricing' },
   { label: 'Docs', href: DOCS_URL, external: true },
 ];
 
@@ -34,7 +34,6 @@ export const FOOTER_NAV: readonly { heading: string; links: readonly NavLink[] }
     heading: 'Company',
     links: [
       { label: 'Services', href: '/services' },
-      { label: 'Pricing', href: '/pricing' },
       { label: 'Contact', href: CONTACT_PATH },
     ],
   },

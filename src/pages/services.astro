@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServicesHero from '../components/services/ServicesHero.astro';
+import CliNotMcp from '../components/services/CliNotMcp.astro';
+import AgentSession from '../components/services/AgentSession.astro';
+import Catalogue from '../components/services/Catalogue.astro';
+import Anatomy from '../components/services/Anatomy.astro';
+import ServicesClose from '../components/services/ServicesClose.astro';
+
+export const prerender = true;
+---
+
+<Layout
+  title="Services · KonnectHub"
+  description="Shopify and BigCommerce ship ready to connect. WooCommerce, Zoho, QuickBooks, Stripe, n8n and anything else with an API become custom services, built by your coding agent through the KonnectHub CLI."
+>
+  <ServicesHero />
+  <CliNotMcp />
+  <AgentSession />
+  <Catalogue />
+  <Anatomy />
+  <ServicesClose />
+</Layout>

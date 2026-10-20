@@ -1,5 +1,5 @@
 ---
-import { APP_URL, CONTACT_PATH } from '../../data/site';
+import { CONTACT_PATH } from '../../data/site';
 
 const jobs = [
   { ask: 'New Shopify orders land in the ERP', parts: 'event source → flow → connection' },
@@ -30,12 +30,13 @@ const jobs = [
           </a>
           <a href="/services" class="cta-line">See services</a>
         </div>
-        <p class="mt-8 text-ink-soft">
-          Prefer to build it yourself?{' '}
-          <a href={APP_URL} class="font-bold underline decoration-2 underline-offset-4 hover:decoration-honey-deep">
-            Start a workspace</a
-          >.
-        </p>
+        <div class="invite mt-10">
+          <p class="label text-ink-soft">Invite only</p>
+          <p class="mt-2">
+            Every workspace starts with a call. After it, we set up a clean workspace for your team and send the
+            invites. Run what we build, or build your own flows in it.
+          </p>
+        </div>
       </div>
 
       <div class="lg:col-span-6 lg:col-start-7">
@@ -61,6 +62,11 @@ const jobs = [
 </section>
 
 <style>
+  .invite {
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-ink);
+  }
+
   .dfy-title {
     font-size: clamp(3.25rem, 0.5rem + 8.5vw, 9rem);
   }

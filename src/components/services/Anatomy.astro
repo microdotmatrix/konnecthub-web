@@ -1,0 +1,180 @@
+---
+import ServiceLogo from './ServiceLogo.astro';
+import { highlightTs } from '../../lib/highlight';
+
+const fields = [
+  { term: 'Key', value: 'woocommerce', note: 'permanent' },
+  { term: 'Authentication', value: 'TOKEN' },
+  { term: 'Config fields', value: 'store_url' },
+  { term: 'Events', value: 'woocommerce.order.paid' },
+] as const;
+
+const inputsJson = `{
+  "store": { "type": "connection", "service": "woocommerce" }
+}`;
+
+const flowCode = highlightTs(`const { config, credentials } =
+  await this.connection(this.input.store);
+// resolved by the platform, the moment the flow asks`);
+
+const facts = [
+  {
+    title: 'The key is permanent',
+    body: 'Flows name a service by its key. It cannot change, so no flow is ever left pointing at nothing.',
+  },
+  {
+    title: 'One connection per account',
+    body: 'Two stores means two connections. Same service, same flow code, a different input.',
+  },
+  {
+    title: 'Listen to one store',
+    body: 'A subscription can be filtered to a single connection, so a flow hears from one store, not all of them.',
+  },
+] as const;
+---
+
+<section id="anatomy" class="overflow-hidden bg-ink py-(--space-section) text-paper" aria-labelledby="anatomy-title">
+  <div class="wrap">
+    <p class="label section-index text-honey">04 / Custom services</p>
+    <h2 id="anatomy-title" class="headline mt-6 max-w-[18ch]">
+      Define it once. <span class="text-honey">Every flow can use it.</span>
+    </h2>
+    <p class="lead mt-8 text-haze">
+      A custom service behaves exactly like Shopify does: the same connection picker, the same input type, the
+      same credential handling.
+    </p>
+
+    <div class="mt-16 grid items-start gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-10">
+      <figure class="spec lg:col-span-5" aria-label="Example custom service definition">
+        <div class="flex items-center gap-4">
+          <span class="spec-tile"><ServiceLogo name="woocommerce" class="spec-logo" /></span>
+          <div>
+            <p class="label text-mute">Service · custom</p>
+            <p class="subhead mt-1">WooCommerce</p>
+          </div>
+        </div>
+        <dl class="spec-fields mt-8">
+          {
+            fields.map((field) => (
+              <div class="spec-field">
+                <dt class="label text-mute">{field.term}</dt>
+                <dd class="code flex flex-wrap items-baseline gap-x-3">
+                  <span class="font-semibold">{field.value}</span>
+                  {'note' in field && <span class="text-mute">{field.note}</span>}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </figure>
+
+      <span class="link-arrow display hidden lg:col-span-1 lg:block" aria-hidden="true">→</span>
+
+      <div class="grid gap-6 lg:col-span-6">
+        <figure class="file machine">
+          <figcaption class="file-head label text-haze">inputs.json</figcaption>
+          <pre class="file-body code">{inputsJson}</pre>
+        </figure>
+        <figure class="file machine">
+          <figcaption class="file-head label text-haze">flows/woo-paid-to-zoho/flow.ts</figcaption>
+          <pre class="file-body code" set:html={flowCode} />
+        </figure>
+      </div>
+    </div>
+
+    <ol class="facts mt-20 grid gap-10 md:grid-cols-3 md:gap-8">
+      {
+        facts.map((fact, i) => (
+          <li class="fact">
+            <span class="fact-num display tabular text-honey" aria-hidden="true">
+              {i + 1}
+            </span>
+            <h3 class="mt-4 text-xl font-extrabold [font-stretch:85%]">{fact.title}</h3>
+            <p class="mt-1.5 text-haze">{fact.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .spec {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 14px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: 12px 12px 0 0 var(--color-honey);
+  }
+
+  .spec-tile {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    border: 2px solid var(--color-ink);
+  }
+
+  .spec-tile :global(.spec-logo) {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .spec-fields {
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .spec-field {
+    display: grid;
+    gap: 0.3rem;
+    padding-block: 0.9rem;
+    border-bottom: 2px dashed var(--color-rule);
+  }
+
+  .spec-field:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .link-arrow {
+    align-self: center;
+    justify-self: center;
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--color-honey);
+  }
+
+  .file {
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .file-head {
+    padding: 0.8rem 1.1rem;
+    border-bottom: 1px solid var(--color-ink-3);
+  }
+
+  .file-body {
+    padding: 1.1rem 1.25rem 1.3rem;
+    overflow-x: auto;
+    color: var(--color-paper);
+  }
+
+  .file-body :global(.tok-keyword) { color: oklch(78% 0.13 300); }
+  .file-body :global(.tok-string) { color: var(--color-ok); }
+  .file-body :global(.tok-this) { color: var(--color-honey); font-style: italic; }
+  .file-body :global(.tok-fn) { color: var(--color-honey); }
+  .file-body :global(.tok-comment) { color: var(--color-haze); }
+
+  .fact {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-ink-3);
+  }
+
+  .fact-num {
+    display: block;
+    font-size: 3.75rem;
+    line-height: 0.8;
+  }
+</style>

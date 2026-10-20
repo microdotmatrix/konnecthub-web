@@ -1,18 +1,21 @@
 ---
-import { APP_URL, CONTACT_EMAIL, DOCS_URL } from '../../data/site';
+import { BOOKING_ANCHOR, CONTACT_EMAIL, DOCS_URL } from '../../data/site';
 
+// Workspaces are invite only, so that route points back to the calendar, not the app.
 const routes = [
   {
-    kicker: 'Build it yourself',
-    title: 'Start a workspace',
-    detail: 'Connect a store, write a flow, watch it run.',
-    href: APP_URL,
+    kicker: 'Invite only',
+    title: 'Your own workspace',
+    detail: 'After the call, we set up a clean workspace and send you an invite. Then build it your way.',
+    href: `#${BOOKING_ANCHOR}`,
+    isExternal: false,
   },
   {
     kicker: 'Look before you talk',
     title: 'Read the docs',
     detail: 'Triggers, flows, connections and the CLI.',
     href: DOCS_URL,
+    isExternal: true,
   },
 ] as const;
 ---
@@ -38,11 +41,15 @@ const routes = [
         {
           routes.map((route) => (
             <li>
-              <a href={route.href} class="route" rel="noopener" target="_blank">
+              <a
+                href={route.href}
+                class="route"
+                {...(route.isExternal ? { rel: 'noopener', target: '_blank' } : {})}
+              >
                 <span class="label text-mute">{route.kicker}</span>
                 <span class="subhead mt-2 flex items-baseline justify-between gap-4">
                   {route.title}
-                  <span class="route-arrow" aria-hidden="true">↗</span>
+                  <span class="route-arrow" aria-hidden="true">{route.isExternal ? '↗' : '↑'}</span>
                 </span>
                 <span class="mt-2 block text-mute">{route.detail}</span>
               </a>
