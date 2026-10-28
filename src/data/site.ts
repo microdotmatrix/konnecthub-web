@@ -3,7 +3,7 @@ export const DOCS_URL = `${APP_URL}/docs`;
 export const CONTACT_PATH = '/contact';
 
 // TODO: swap for the shared inquiries inbox once it exists.
-export const CONTACT_EMAIL = 'hello@konnecthub.io';
+export const CONTACT_EMAIL = 'john@honeybeeherb.com';
 export const BOOKING_ANCHOR = 'book';
 export const BOOKING_URL = 'https://cannadevices-dispomart.zohobookings.com/portal-embed#/4318055000002054260';
 
